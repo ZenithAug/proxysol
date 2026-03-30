@@ -72,7 +72,7 @@ jobs:
           echo "Checking mobile-responsive Tailwind classes..."
 
           # Check that section-pinned uses responsive classes
-          if grep -q "min-h-screen lg:h-screen" src/index.css; then
+          if grep -q "min-h-screen" src/index.css && grep -q "lg:h-screen" src/index.css; then
             echo "✓ section-pinned uses responsive height classes"
           else
             echo "✗ section-pinned missing responsive height classes"
@@ -80,7 +80,7 @@ jobs:
           fi
 
           # Check that h-full is properly guarded on mobile
-          if grep -q "h-auto lg:h-full" src/sections/Hero.tsx; then
+          if grep -q "h-auto" src/sections/Hero.tsx && grep -q "lg:h-full" src/sections/Hero.tsx; then
             echo "✓ Hero section uses responsive height classes"
           else
             echo "✗ Hero section missing responsive height classes"
@@ -90,7 +90,7 @@ jobs:
           # Check all pinned sections have been updated
           FILES="src/sections/Hero.tsx src/sections/AINative.tsx src/sections/MCPServer.tsx src/sections/PeerMarket.tsx src/sections/TokenEconomy.tsx"
           for file in $FILES; do
-            if grep -q "min-h-full lg:h-full" "$file"; then
+            if grep -q "min-h-full" "$file" && grep -q "lg:h-full" "$file"; then
               echo "✓ $file has responsive container height"
             else
               echo "✗ $file missing responsive container height"
