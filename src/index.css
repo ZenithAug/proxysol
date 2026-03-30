@@ -225,7 +225,31 @@
 
   /* Section Base */
   .section-pinned {
-    @apply relative w-screen min-h-screen lg:h-screen overflow-visible lg:overflow-hidden;
+    @apply relative w-screen min-h-screen lg:h-screen;
+    overflow-x: hidden;
+    overflow-y: visible;
+  }
+
+  @screen lg {
+    .section-pinned {
+      overflow: hidden;
+    }
+  }
+
+  /* Smooth scrolling for mobile */
+  @media (max-width: 1023px) {
+    html {
+      scroll-behavior: smooth;
+      -webkit-overflow-scrolling: touch;
+    }
+
+    body {
+      overflow-x: hidden;
+      -webkit-overflow-scrolling: touch;
+    }
+    .mobile-menu {
+      @apply lg:hidden fixed inset-x-0 top-16 bg-bg-primary/95 backdrop-blur-xl border-b border-white/5 transition-all duration-300 ease-out max-h-[calc(100vh-4rem)] overflow-y-auto;
+    }
   }
 
   .section-flowing {

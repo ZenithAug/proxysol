@@ -96,9 +96,9 @@ const Navigation = () => {
 
       {/* Mobile Menu */}
       <div
-        className={`lg:hidden absolute top-full left-0 right-0 bg-bg-primary/95 backdrop-blur-xl border-b border-white/5 transition-all duration-300 ${
+        className={`lg:hidden fixed inset-x-0 top-16 bg-bg-primary/95 backdrop-blur-xl border-b border-white/5 transition-all duration-300 ease-out max-h-[calc(100vh-4rem)] overflow-y-auto ${
           isMobileMenuOpen
-            ? "opacity-100 translate-y-0"
+            ? "opacity-100 translate-y-0 pointer-events-auto"
             : "opacity-0 -translate-y-4 pointer-events-none"
         }`}
       >
