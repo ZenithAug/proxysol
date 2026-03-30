@@ -27,9 +27,11 @@ function App() {
   const snapTriggerRef = useRef<ScrollTrigger | null>(null);
 
   useEffect(() => {
-    // Global snap for pinned sections
+    // Only enable snap behaviour on desktop (lg breakpoint = 1024px)
+    const isDesktop = window.matchMedia("(min-width: 1024px)").matches;
+    if (!isDesktop) return;
+
     const setupGlobalSnap = () => {
-      // Clear any existing snap trigger first
       if (snapTriggerRef.current) {
         snapTriggerRef.current.kill();
         snapTriggerRef.current = null;
@@ -74,7 +76,6 @@ function App() {
       });
     };
 
-    // Delay to allow all ScrollTriggers to initialize
     const timer = setTimeout(setupGlobalSnap, 500);
 
     return () => {

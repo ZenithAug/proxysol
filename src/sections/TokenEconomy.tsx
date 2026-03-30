@@ -57,73 +57,89 @@ const TokenEconomy = () => {
 
     if (!section || !cardA || !cardB || !coin) return;
 
+    const isDesktop = window.matchMedia("(min-width: 1024px)").matches;
+
     const ctx = gsap.context(() => {
-      const scrollTl = gsap.timeline({
-        scrollTrigger: {
-          trigger: section,
-          start: "top top",
-          end: "+=130%",
-          pin: true,
-          scrub: 0.6,
-        },
-      });
+      if (isDesktop) {
+        const scrollTl = gsap.timeline({
+          scrollTrigger: {
+            trigger: section,
+            start: "top top",
+            end: "+=130%",
+            pin: true,
+            scrub: 0.6,
+          },
+        });
 
-      // ENTRANCE (0% - 30%)
-      scrollTl.fromTo(
-        cardA,
-        { x: "-55vw", opacity: 0 },
-        { x: 0, opacity: 1, ease: "none" },
-        0,
-      );
+        // ENTRANCE (0% - 30%)
+        scrollTl.fromTo(
+          cardA,
+          { x: "-55vw", opacity: 0 },
+          { x: 0, opacity: 1, ease: "none" },
+          0,
+        );
+        scrollTl.fromTo(
+          cardB,
+          { x: "55vw", opacity: 0 },
+          { x: 0, opacity: 1, ease: "none" },
+          0,
+        );
 
-      scrollTl.fromTo(
-        cardB,
-        { x: "55vw", opacity: 0 },
-        { x: 0, opacity: 1, ease: "none" },
-        0,
-      );
+        // Coin 3D rotation entrance
+        scrollTl.fromTo(
+          coin,
+          { rotateY: -90, scale: 0.85, opacity: 0 },
+          { rotateY: 0, scale: 1, opacity: 1, ease: "none" },
+          0.08,
+        );
 
-      // Coin 3D rotation entrance
-      scrollTl.fromTo(
-        coin,
-        { rotateY: -90, scale: 0.85, opacity: 0 },
-        { rotateY: 0, scale: 1, opacity: 1, ease: "none" },
-        0.08,
-      );
+        // Phase list stagger
+        const phaseItems = cardB.querySelectorAll(".phase-item");
+        scrollTl.fromTo(
+          phaseItems,
+          { y: 16, opacity: 0 },
+          { y: 0, opacity: 1, stagger: 0.02, ease: "none" },
+          0.12,
+        );
 
-      // Phase list stagger
-      const phaseItems = cardB.querySelectorAll(".phase-item");
-      scrollTl.fromTo(
-        phaseItems,
-        { y: 16, opacity: 0 },
-        { y: 0, opacity: 1, stagger: 0.02, ease: "none" },
-        0.12,
-      );
-
-      // SETTLE (30% - 70%): Hold position with coin rotation loop
-      // Note: Continuous rotation is handled by CSS animation
-
-      // EXIT (70% - 100%)
-      scrollTl.fromTo(
-        cardA,
-        { x: 0, opacity: 1 },
-        { x: "-18vw", opacity: 0, ease: "power2.in" },
-        0.7,
-      );
-
-      scrollTl.fromTo(
-        cardB,
-        { x: 0, opacity: 1 },
-        { x: "18vw", opacity: 0, ease: "power2.in" },
-        0.7,
-      );
-
-      scrollTl.fromTo(
-        coin,
-        { rotateY: 0, opacity: 1 },
-        { rotateY: 45, opacity: 0, ease: "power2.in" },
-        0.7,
-      );
+        // EXIT (70% - 100%)
+        scrollTl.fromTo(
+          cardA,
+          { x: 0, opacity: 1 },
+          { x: "-18vw", opacity: 0, ease: "power2.in" },
+          0.7,
+        );
+        scrollTl.fromTo(
+          cardB,
+          { x: 0, opacity: 1 },
+          { x: "18vw", opacity: 0, ease: "power2.in" },
+          0.7,
+        );
+        scrollTl.fromTo(
+          coin,
+          { rotateY: 0, opacity: 1 },
+          { rotateY: 45, opacity: 0, ease: "power2.in" },
+          0.7,
+        );
+      } else {
+        // Mobile: simple scroll-triggered fade-up
+        gsap.fromTo(
+          [cardA, cardB],
+          { y: 40, opacity: 0 },
+          {
+            y: 0,
+            opacity: 1,
+            stagger: 0.12,
+            duration: 0.6,
+            ease: "power2.out",
+            scrollTrigger: {
+              trigger: section,
+              start: "top 80%",
+              toggleActions: "play none none none",
+            },
+          }
+        );
+      }
     }, section);
 
     return () => ctx.revert();
@@ -153,7 +169,7 @@ const TokenEconomy = () => {
           <div
             ref={cardARef}
             className="gloss-card w-full lg:w-[40vw] h-auto lg:h-[72vh] p-6 lg:p-10 flex flex-col justify-center"
-            style={{ willChange: "transform, opacity" }}
+            style={{ willChange: "auto" }}
           >
             <div className="flex items-center gap-3 mb-6">
               <div className="w-12 h-12 rounded-xl bg-purple/10 flex items-center justify-center">
@@ -214,7 +230,7 @@ const TokenEconomy = () => {
           <div
             ref={cardBRef}
             className="gloss-card w-full lg:w-[44vw] h-auto lg:h-[72vh] p-6 flex flex-col"
-            style={{ willChange: "transform, opacity" }}
+            style={{ willChange: "auto" }}
           >
             {/* 3D Coin */}
             <div className="flex justify-center mb-6">
