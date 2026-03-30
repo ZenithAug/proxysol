@@ -1,32 +1,39 @@
-import { useState, useEffect } from 'react';
-import { Menu, X, Globe } from 'lucide-react';
+import { useState, useEffect, useRef } from "react";
+import { Menu, X, Globe } from "lucide-react";
 
 const Navigation = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const tickingRef = useRef(false);
 
   useEffect(() => {
     const handleScroll = () => {
-      setIsScrolled(window.scrollY > 100);
+      if (!tickingRef.current) {
+        window.requestAnimationFrame(() => {
+          setIsScrolled(window.scrollY > 100);
+          tickingRef.current = false;
+        });
+        tickingRef.current = true;
+      }
     };
 
-    window.addEventListener('scroll', handleScroll, { passive: true });
-    return () => window.removeEventListener('scroll', handleScroll);
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
   const navLinks = [
-    { label: 'How it Works', href: '#how-it-works' },
-    { label: 'Pricing', href: '#pricing' },
-    { label: 'MCP Server', href: '#mcp-server' },
-    { label: 'Live Stats', href: '#stats' },
+    { label: "How it Works", href: "#how-it-works" },
+    { label: "Pricing", href: "#pricing" },
+    { label: "MCP Server", href: "#mcp-server" },
+    { label: "Live Stats", href: "#stats" },
   ];
 
   return (
     <nav
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
         isScrolled
-          ? 'bg-bg-primary/80 backdrop-blur-xl border-b border-white/5'
-          : 'bg-transparent'
+          ? "bg-bg-primary/80 backdrop-blur-xl border-b border-white/5"
+          : "bg-transparent"
       }`}
     >
       <div className="w-full px-6 lg:px-12">
@@ -91,8 +98,8 @@ const Navigation = () => {
       <div
         className={`lg:hidden absolute top-full left-0 right-0 bg-bg-primary/95 backdrop-blur-xl border-b border-white/5 transition-all duration-300 ${
           isMobileMenuOpen
-            ? 'opacity-100 translate-y-0'
-            : 'opacity-0 -translate-y-4 pointer-events-none'
+            ? "opacity-100 translate-y-0"
+            : "opacity-0 -translate-y-4 pointer-events-none"
         }`}
       >
         <div className="px-6 py-6 space-y-4">

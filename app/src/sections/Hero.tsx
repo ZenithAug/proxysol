@@ -1,7 +1,7 @@
-import { useEffect, useRef } from 'react';
-import { gsap } from 'gsap';
-import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import { Zap, Wifi, Clock, Headphones } from 'lucide-react';
+import { useEffect, useRef } from "react";
+import { gsap } from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { Zap, Wifi, Clock, Headphones } from "lucide-react";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -25,38 +25,38 @@ const Hero = () => {
 
     const ctx = gsap.context(() => {
       // Load animation timeline
-      const loadTl = gsap.timeline({ defaults: { ease: 'power3.out' } });
+      const loadTl = gsap.timeline({ defaults: { ease: "power3.out" } });
 
       // Card A entrance
       loadTl.fromTo(
         cardA,
-        { x: '-60vw', rotateY: 18, opacity: 0 },
-        { x: 0, rotateY: 0, opacity: 1, duration: 0.9 }
+        { x: "-60vw", rotateY: 18, opacity: 0 },
+        { x: 0, rotateY: 0, opacity: 1, duration: 0.9 },
       );
 
       // Card B entrance
       loadTl.fromTo(
         cardB,
-        { x: '40vw', rotateY: -12, opacity: 0 },
+        { x: "40vw", rotateY: -12, opacity: 0 },
         { x: 0, rotateY: 0, opacity: 1, duration: 0.8 },
-        0.15
+        0.15,
       );
 
       // Card C entrance
       loadTl.fromTo(
         cardC,
-        { y: '60vh', rotateX: -10, opacity: 0 },
+        { y: "60vh", rotateX: -10, opacity: 0 },
         { y: 0, rotateX: 0, opacity: 1, duration: 0.8 },
-        0.25
+        0.25,
       );
 
       // Headline words stagger
-      const words = headline.querySelectorAll('.word');
+      const words = headline.querySelectorAll(".word");
       loadTl.fromTo(
         words,
         { y: 24, opacity: 0 },
         { y: 0, opacity: 1, duration: 0.6, stagger: 0.05 },
-        0.45
+        0.45,
       );
 
       // CTA buttons
@@ -64,15 +64,15 @@ const Hero = () => {
         cta.children,
         { scale: 0.92, opacity: 0 },
         { scale: 1, opacity: 1, duration: 0.45, stagger: 0.1 },
-        0.7
+        0.7,
       );
 
       // Scroll-driven exit animation
       const scrollTl = gsap.timeline({
         scrollTrigger: {
           trigger: section,
-          start: 'top top',
-          end: '+=130%',
+          start: "top top",
+          end: "+=130%",
           pin: true,
           scrub: 0.6,
         },
@@ -83,22 +83,22 @@ const Hero = () => {
       scrollTl.fromTo(
         cardA,
         { x: 0, opacity: 1 },
-        { x: '-18vw', opacity: 0, ease: 'power2.in' },
-        0.7
+        { x: "-18vw", opacity: 0, ease: "power2.in" },
+        0.7,
       );
 
       scrollTl.fromTo(
         cardB,
         { x: 0, opacity: 1 },
-        { x: '18vw', opacity: 0, ease: 'power2.in' },
-        0.7
+        { x: "18vw", opacity: 0, ease: "power2.in" },
+        0.7,
       );
 
       scrollTl.fromTo(
         cardC,
         { y: 0, opacity: 1 },
-        { y: '18vh', opacity: 0, ease: 'power2.in' },
-        0.7
+        { y: "18vh", opacity: 0, ease: "power2.in" },
+        0.7,
       );
     }, section);
 
@@ -116,20 +116,20 @@ const Hero = () => {
       <div
         className="ambient-glow ambient-glow-purple"
         style={{
-          left: '18vw',
-          top: '30vh',
-          width: '46vw',
-          height: '46vw',
+          left: "18vw",
+          top: "30vh",
+          width: "46vw",
+          height: "46vw",
         }}
       />
 
-      <div className="relative w-full h-full px-6 lg:px-12 pt-20">
-        <div className="relative w-full h-full flex flex-col lg:flex-row items-center justify-center gap-6">
+      <div className="relative w-full min-h-full lg:h-full px-6 lg:px-12 pt-20 pb-10 lg:pb-0">
+        <div className="relative w-full h-auto lg:h-full flex flex-col lg:flex-row items-center justify-center gap-6">
           {/* Card A - Main Hero Card */}
           <div
             ref={cardARef}
             className="gloss-card gloss-card-neon w-full lg:w-[62vw] h-auto lg:h-[72vh] p-6 lg:p-10 flex flex-col justify-between"
-            style={{ willChange: 'transform, opacity' }}
+            style={{ willChange: "transform, opacity" }}
           >
             {/* Top Section */}
             <div>
@@ -145,17 +145,17 @@ const Hero = () => {
                   <span className="word inline-block">4G/5G</span>
                 </h1>
                 <h1 className="font-display font-bold text-3xl lg:text-5xl xl:text-6xl text-gradient leading-none">
-                  <span className="word inline-block">AI-Native</span>{' '}
-                  <span className="word inline-block">Mobile</span>{' '}
-                  <span className="word inline-block">Network</span>{' '}
+                  <span className="word inline-block">AI-Native</span>{" "}
+                  <span className="word inline-block">Mobile</span>{" "}
+                  <span className="word inline-block">Network</span>{" "}
                   <span className="word inline-block">Stack</span>
                 </h1>
               </div>
 
               {/* Subheadline */}
               <p className="text-text-secondary text-base lg:text-lg max-w-2xl leading-relaxed">
-                The cleanest IPs on the internet. Actual phones on carrier networks.
-                Bypass CAPTCHAs, verify accounts, scrape at scale.
+                The cleanest IPs on the internet. Actual phones on carrier
+                networks. Bypass CAPTCHAs, verify accounts, scrape at scale.
               </p>
             </div>
 
@@ -173,7 +173,9 @@ const Hero = () => {
 
               {/* Microcopy */}
               <p className="text-text-secondary text-sm">
-                Starting at <span className="text-cyan font-semibold">$36/mo</span> • No credit card for trial
+                Starting at{" "}
+                <span className="text-cyan font-semibold">$36/mo</span> • No
+                credit card for trial
               </p>
             </div>
           </div>
@@ -184,7 +186,7 @@ const Hero = () => {
             <div
               ref={cardBRef}
               className="gloss-card w-full lg:w-[24vw] h-auto lg:h-[22vh] p-6"
-              style={{ willChange: 'transform, opacity' }}
+              style={{ willChange: "transform, opacity" }}
             >
               <h3 className="font-display font-semibold text-lg text-text-primary mb-4">
                 Network Operational
@@ -209,7 +211,7 @@ const Hero = () => {
             <div
               ref={cardCRef}
               className="gloss-card w-full lg:w-[24vw] h-auto lg:h-[46vh] p-6"
-              style={{ willChange: 'transform, opacity' }}
+              style={{ willChange: "transform, opacity" }}
             >
               <div className="flex items-center gap-3 mb-4">
                 <div className="w-10 h-10 rounded-xl bg-cyan/10 flex items-center justify-center">
@@ -227,19 +229,27 @@ const Hero = () => {
               <div className="space-y-4">
                 <div className="flex items-center gap-3">
                   <Wifi className="w-4 h-4 text-cyan" />
-                  <span className="text-sm text-text-secondary">Unlimited bandwidth</span>
+                  <span className="text-sm text-text-secondary">
+                    Unlimited bandwidth
+                  </span>
                 </div>
                 <div className="flex items-center gap-3">
                   <Zap className="w-4 h-4 text-cyan" />
-                  <span className="text-sm text-text-secondary">10–100 Mbps</span>
+                  <span className="text-sm text-text-secondary">
+                    10–100 Mbps
+                  </span>
                 </div>
                 <div className="flex items-center gap-3">
                   <Clock className="w-4 h-4 text-cyan" />
-                  <span className="text-sm text-text-secondary">&lt; 60s setup</span>
+                  <span className="text-sm text-text-secondary">
+                    &lt; 60s setup
+                  </span>
                 </div>
                 <div className="flex items-center gap-3">
                   <Headphones className="w-4 h-4 text-cyan" />
-                  <span className="text-sm text-text-secondary">24/7 support</span>
+                  <span className="text-sm text-text-secondary">
+                    24/7 support
+                  </span>
                 </div>
               </div>
 
