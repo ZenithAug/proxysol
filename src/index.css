@@ -44,11 +44,15 @@
 
   html {
     scroll-behavior: smooth;
+    /* Use momentum-based native scrolling on iOS */
+    -webkit-overflow-scrolling: touch;
   }
 
   body {
     @apply bg-bg-primary text-text-primary font-body antialiased;
     overflow-x: hidden;
+    /* Promote to compositor layer for smooth painting */
+    -webkit-font-smoothing: antialiased;
   }
 
   h1,
@@ -245,11 +249,55 @@
 
     body {
       overflow-x: hidden;
-      -webkit-overflow-scrolling: touch;
     }
-    .mobile-menu {
-      @apply lg:hidden fixed inset-x-0 top-16 bg-bg-primary/95 backdrop-blur-xl border-b border-white/5 transition-all duration-300 ease-out max-h-[calc(100vh-4rem)] overflow-y-auto;
+
+    /* Reduce GPU pressure on mobile */
+    .gloss-card {
+      will-change: auto;
+      transform: none !important;
     }
+
+    /* Lighten the backdrop blur on weaker mobile GPUs */
+    .section-pinned {
+      min-height: auto;
+    }
+  }
+
+  /* ─── Mobile Navigation Drawer ─── */
+  .mobile-menu-drawer {
+    /* Hardware-accelerate the slide */
+    transform: translateZ(0);
+  }
+
+  /* Staggered nav link entrance */
+  @keyframes mobile-nav-slide-in {
+    from {
+      opacity: 0;
+      transform: translateY(-12px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  @keyframes mobile-nav-slide-out {
+    from {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    to {
+      opacity: 0;
+      transform: translateY(-8px);
+    }
+  }
+
+  .mobile-nav-in {
+    animation: mobile-nav-slide-in 0.35s cubic-bezier(0.22, 1, 0.36, 1) both;
+  }
+
+  .mobile-nav-out {
+    opacity: 0;
   }
 
   .section-flowing {

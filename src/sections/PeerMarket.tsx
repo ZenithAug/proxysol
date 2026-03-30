@@ -53,80 +53,96 @@ const PeerMarket = () => {
 
     if (!section || !cardA || !cardB || !cardC) return;
 
+    const isDesktop = window.matchMedia("(min-width: 1024px)").matches;
+
     const ctx = gsap.context(() => {
-      const scrollTl = gsap.timeline({
-        scrollTrigger: {
-          trigger: section,
-          start: "top top",
-          end: "+=130%",
-          pin: true,
-          scrub: 0.6,
-        },
-      });
+      if (isDesktop) {
+        const scrollTl = gsap.timeline({
+          scrollTrigger: {
+            trigger: section,
+            start: "top top",
+            end: "+=130%",
+            pin: true,
+            scrub: 0.6,
+          },
+        });
 
-      // ENTRANCE (0% - 30%)
-      scrollTl.fromTo(
-        cardA,
-        { x: "-55vw", opacity: 0 },
-        { x: 0, opacity: 1, ease: "none" },
-        0,
-      );
+        // ENTRANCE (0% - 30%)
+        scrollTl.fromTo(
+          cardA,
+          { x: "-55vw", opacity: 0 },
+          { x: 0, opacity: 1, ease: "none" },
+          0,
+        );
+        scrollTl.fromTo(
+          cardB,
+          { x: "55vw", opacity: 0 },
+          { x: 0, opacity: 1, ease: "none" },
+          0.05,
+        );
+        scrollTl.fromTo(
+          cardC,
+          { y: "45vh", opacity: 0 },
+          { y: 0, opacity: 1, ease: "none" },
+          0.1,
+        );
 
-      scrollTl.fromTo(
-        cardB,
-        { x: "55vw", opacity: 0 },
-        { x: 0, opacity: 1, ease: "none" },
-        0.05,
-      );
+        // Tier rows stagger
+        const tierRows = cardB.querySelectorAll(".tier-row");
+        scrollTl.fromTo(
+          tierRows,
+          { y: 16, opacity: 0 },
+          { y: 0, opacity: 1, stagger: 0.02, ease: "none" },
+          0.12,
+        );
 
-      scrollTl.fromTo(
-        cardC,
-        { y: "45vh", opacity: 0 },
-        { y: 0, opacity: 1, ease: "none" },
-        0.1,
-      );
+        // Calculator values
+        const calcValues = cardC.querySelectorAll(".calc-value");
+        scrollTl.fromTo(
+          calcValues,
+          { scale: 0.98, opacity: 0 },
+          { scale: 1, opacity: 1, ease: "none" },
+          0.18,
+        );
 
-      // Tier rows stagger
-      const tierRows = cardB.querySelectorAll(".tier-row");
-      scrollTl.fromTo(
-        tierRows,
-        { y: 16, opacity: 0 },
-        { y: 0, opacity: 1, stagger: 0.02, ease: "none" },
-        0.12,
-      );
-
-      // Calculator values
-      const calcValues = cardC.querySelectorAll(".calc-value");
-      scrollTl.fromTo(
-        calcValues,
-        { scale: 0.98, opacity: 0 },
-        { scale: 1, opacity: 1, ease: "none" },
-        0.18,
-      );
-
-      // SETTLE (30% - 70%): Hold position
-
-      // EXIT (70% - 100%)
-      scrollTl.fromTo(
-        cardA,
-        { x: 0, opacity: 1 },
-        { x: "-18vw", opacity: 0, ease: "power2.in" },
-        0.7,
-      );
-
-      scrollTl.fromTo(
-        cardB,
-        { x: 0, opacity: 1 },
-        { x: "18vw", opacity: 0, ease: "power2.in" },
-        0.7,
-      );
-
-      scrollTl.fromTo(
-        cardC,
-        { y: 0, opacity: 1 },
-        { y: "18vh", opacity: 0, ease: "power2.in" },
-        0.7,
-      );
+        // EXIT (70% - 100%)
+        scrollTl.fromTo(
+          cardA,
+          { x: 0, opacity: 1 },
+          { x: "-18vw", opacity: 0, ease: "power2.in" },
+          0.7,
+        );
+        scrollTl.fromTo(
+          cardB,
+          { x: 0, opacity: 1 },
+          { x: "18vw", opacity: 0, ease: "power2.in" },
+          0.7,
+        );
+        scrollTl.fromTo(
+          cardC,
+          { y: 0, opacity: 1 },
+          { y: "18vh", opacity: 0, ease: "power2.in" },
+          0.7,
+        );
+      } else {
+        // Mobile: simple scroll-triggered fade-up
+        gsap.fromTo(
+          [cardA, cardB, cardC],
+          { y: 40, opacity: 0 },
+          {
+            y: 0,
+            opacity: 1,
+            stagger: 0.12,
+            duration: 0.6,
+            ease: "power2.out",
+            scrollTrigger: {
+              trigger: section,
+              start: "top 80%",
+              toggleActions: "play none none none",
+            },
+          }
+        );
+      }
     }, section);
 
     return () => ctx.revert();
@@ -220,7 +236,7 @@ const PeerMarket = () => {
             <div
               ref={cardBRef}
               className="gloss-card w-full lg:w-[44vw] h-auto lg:h-[34vh] p-6"
-              style={{ willChange: "transform, opacity" }}
+              style={{ willChange: "auto" }}
             >
               <h3 className="font-display font-semibold text-lg text-text-primary mb-4">
                 Earning Tiers
@@ -276,7 +292,7 @@ const PeerMarket = () => {
             <div
               ref={cardCRef}
               className="gloss-card w-full lg:w-[44vw] h-auto lg:h-[34vh] p-6"
-              style={{ willChange: "transform, opacity" }}
+              style={{ willChange: "auto" }}
             >
               <div className="flex items-center gap-3 mb-4">
                 <Calculator className="w-5 h-5 text-cyan" />

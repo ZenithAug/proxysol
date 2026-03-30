@@ -23,83 +23,88 @@ const Hero = () => {
 
     if (!section || !cardA || !cardB || !cardC || !headline || !cta) return;
 
+    const isDesktop = window.matchMedia("(min-width: 1024px)").matches;
+
     const ctx = gsap.context(() => {
       // Load animation timeline
       const loadTl = gsap.timeline({ defaults: { ease: "power3.out" } });
 
-      // Card A entrance
-      loadTl.fromTo(
-        cardA,
-        { x: "-60vw", rotateY: 18, opacity: 0 },
-        { x: 0, rotateY: 0, opacity: 1, duration: 0.9 },
-      );
-
-      // Card B entrance
-      loadTl.fromTo(
-        cardB,
-        { x: "40vw", rotateY: -12, opacity: 0 },
-        { x: 0, rotateY: 0, opacity: 1, duration: 0.8 },
-        0.15,
-      );
-
-      // Card C entrance
-      loadTl.fromTo(
-        cardC,
-        { y: "60vh", rotateX: -10, opacity: 0 },
-        { y: 0, rotateX: 0, opacity: 1, duration: 0.8 },
-        0.25,
-      );
+      if (isDesktop) {
+        // Desktop: full 3D entrance animations
+        loadTl.fromTo(
+          cardA,
+          { x: "-60vw", rotateY: 18, opacity: 0 },
+          { x: 0, rotateY: 0, opacity: 1, duration: 0.9 },
+        );
+        loadTl.fromTo(
+          cardB,
+          { x: "40vw", rotateY: -12, opacity: 0 },
+          { x: 0, rotateY: 0, opacity: 1, duration: 0.8 },
+          0.15,
+        );
+        loadTl.fromTo(
+          cardC,
+          { y: "60vh", rotateX: -10, opacity: 0 },
+          { y: 0, rotateX: 0, opacity: 1, duration: 0.8 },
+          0.25,
+        );
+      } else {
+        // Mobile: simple fade-up (no heavy 3D transforms)
+        loadTl.fromTo(
+          [cardA, cardB, cardC],
+          { y: 32, opacity: 0 },
+          { y: 0, opacity: 1, duration: 0.55, stagger: 0.1 },
+        );
+      }
 
       // Headline words stagger
       const words = headline.querySelectorAll(".word");
       loadTl.fromTo(
         words,
-        { y: 24, opacity: 0 },
-        { y: 0, opacity: 1, duration: 0.6, stagger: 0.05 },
-        0.45,
+        { y: 20, opacity: 0 },
+        { y: 0, opacity: 1, duration: 0.5, stagger: 0.05 },
+        isDesktop ? 0.45 : 0.25,
       );
 
       // CTA buttons
       loadTl.fromTo(
         cta.children,
-        { scale: 0.92, opacity: 0 },
-        { scale: 1, opacity: 1, duration: 0.45, stagger: 0.1 },
-        0.7,
+        { scale: 0.94, opacity: 0 },
+        { scale: 1, opacity: 1, duration: 0.4, stagger: 0.1 },
+        isDesktop ? 0.7 : 0.45,
       );
 
-      // Scroll-driven exit animation
-      const scrollTl = gsap.timeline({
-        scrollTrigger: {
-          trigger: section,
-          start: "top top",
-          end: "+=130%",
-          pin: true,
-          scrub: 0.6,
-        },
-      });
+      // Scroll-driven exit: desktop only (pin causes mobile scroll jank)
+      if (isDesktop) {
+        const scrollTl = gsap.timeline({
+          scrollTrigger: {
+            trigger: section,
+            start: "top top",
+            end: "+=130%",
+            pin: true,
+            scrub: 0.6,
+          },
+        });
 
-      // SETTLE phase (0% - 70%): Hold position
-      // EXIT phase (70% - 100%): Elements exit
-      scrollTl.fromTo(
-        cardA,
-        { x: 0, opacity: 1 },
-        { x: "-18vw", opacity: 0, ease: "power2.in" },
-        0.7,
-      );
-
-      scrollTl.fromTo(
-        cardB,
-        { x: 0, opacity: 1 },
-        { x: "18vw", opacity: 0, ease: "power2.in" },
-        0.7,
-      );
-
-      scrollTl.fromTo(
-        cardC,
-        { y: 0, opacity: 1 },
-        { y: "18vh", opacity: 0, ease: "power2.in" },
-        0.7,
-      );
+        scrollTl.fromTo(
+          cardA,
+          { x: 0, opacity: 1 },
+          { x: "-18vw", opacity: 0, ease: "power2.in" },
+          0.7,
+        );
+        scrollTl.fromTo(
+          cardB,
+          { x: 0, opacity: 1 },
+          { x: "18vw", opacity: 0, ease: "power2.in" },
+          0.7,
+        );
+        scrollTl.fromTo(
+          cardC,
+          { y: 0, opacity: 1 },
+          { y: "18vh", opacity: 0, ease: "power2.in" },
+          0.7,
+        );
+      }
     }, section);
 
     return () => ctx.revert();
@@ -129,7 +134,7 @@ const Hero = () => {
           <div
             ref={cardARef}
             className="gloss-card gloss-card-neon w-full lg:w-[62vw] h-auto lg:h-[72vh] p-6 lg:p-10 flex flex-col justify-between"
-            style={{ willChange: "transform, opacity" }}
+            style={{ willChange: "auto" }}
           >
             {/* Top Section */}
             <div>
@@ -186,7 +191,7 @@ const Hero = () => {
             <div
               ref={cardBRef}
               className="gloss-card w-full lg:w-[24vw] h-auto lg:h-[22vh] p-6"
-              style={{ willChange: "transform, opacity" }}
+              style={{ willChange: "auto" }}
             >
               <h3 className="font-display font-semibold text-lg text-text-primary mb-4">
                 Network Operational
@@ -211,7 +216,7 @@ const Hero = () => {
             <div
               ref={cardCRef}
               className="gloss-card w-full lg:w-[24vw] h-auto lg:h-[46vh] p-6"
-              style={{ willChange: "transform, opacity" }}
+              style={{ willChange: "auto" }}
             >
               <div className="flex items-center gap-3 mb-4">
                 <div className="w-10 h-10 rounded-xl bg-cyan/10 flex items-center justify-center">
