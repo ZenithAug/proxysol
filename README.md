@@ -156,6 +156,7 @@ MIT License - see LICENSE file for details
 - **Live Site**: [solproxy.io](https://solproxy.io)
 - **Documentation**: [docs.solproxy.io](https://docs.solproxy.io)
 - **x402 Protocol**: [x402.org](https://x402.org)
+- **Telegram**: [t.me/sol_proxy](https://t.me/sol_proxy)
 
 ---
 
