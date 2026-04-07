@@ -142,7 +142,9 @@ const Pricing = () => {
             Simple, <span className="text-gradient">Transparent</span> Pricing
           </h2>
           <p className="text-text-secondary text-base lg:text-lg max-w-2xl mx-auto">
-            Choose a bundle or build your own. Bandwidth never expires.
+            Shared from <span className="text-cyan font-semibold">$36/mo</span>. Private from <span className="text-cyan font-semibold">$72/mo</span>.
+            Micro-buys from <span className="text-cyan font-semibold">$0.375</span> in USDC or <span className="text-cyan font-semibold">$SOLPROXY</span>.
+            Unlimited bandwidth • 10–100 Mbps typical.
           </p>
         </div>
 
@@ -276,7 +278,7 @@ const Pricing = () => {
             </div>
             <div className="flex items-center gap-2 text-sm text-text-secondary">
               <Check className="w-4 h-4 text-cyan" />
-              Pay with card or crypto
+              Pay with USDC, card, or $SOLPROXY
             </div>
             <div className="flex items-center gap-2 text-sm text-text-secondary">
               <Check className="w-4 h-4 text-cyan" />
