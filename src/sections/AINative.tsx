@@ -155,7 +155,7 @@ const AINative = () => {
                 <Cpu className="w-6 h-6 text-cyan" />
               </div>
               <span className="font-mono text-xs uppercase tracking-wider text-cyan">
-                AI-Native
+                Built for Agents
               </span>
             </div>
 
@@ -166,8 +166,9 @@ const AINative = () => {
             </h2>
 
             <p className="text-text-secondary text-base lg:text-lg leading-relaxed mb-8">
-              Infrastructure for autonomous systems. No accounts. No API keys.
-              No human intervention.
+              Account verification, checkout bots, scraping, and LLM browsing
+              — your agents need clean mobile IPs at every step. No accounts.
+              No API keys. No human in the loop.
             </p>
 
             <div className="flex items-center gap-4">
@@ -208,8 +209,9 @@ const AINative = () => {
               </div>
 
               <p className="text-text-secondary text-sm mb-6">
-                Agents purchase proxies with USDC on-chain. Settlement in ~2
-                seconds. No registration, no KYC, no approval process.
+                Agents purchase proxies with USDC on-chain via x402
+                pay-on-request. Settlement in ~2s. No registration, no KYC,
+                no approval process.
               </p>
 
               <div className="flex flex-wrap gap-3">
@@ -253,8 +255,9 @@ const AINative = () => {
               </div>
 
               <p className="text-text-secondary text-sm mb-6">
-                Control proxy infrastructure through natural language. Create
-                ports, rotate IPs, monitor status — all through conversation.
+                55 MCP tools. Works with Claude, Cursor, and Cline. Create
+                endpoints, rotate IPs, and monitor status — all through
+                natural language.
               </p>
 
               <div className="flex flex-wrap gap-3">

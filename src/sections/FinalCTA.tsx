@@ -95,14 +95,14 @@ const FinalCTA = () => {
           </div>
 
           <h2 className="font-display font-bold text-3xl lg:text-5xl text-text-primary mb-4 leading-tight">
-            Ready to Get Real
+            Ready to Give Your Agents
             <br />
-            <span className="text-gradient">Mobile IPs?</span>
+            <span className="text-gradient">Real Mobile IPs?</span>
           </h2>
 
           <p className="text-text-secondary text-base lg:text-lg max-w-2xl mx-auto mb-8">
             Join 150+ businesses using solProxy to run clean mobile traffic at
-            scale. Start scraping, verifying, and automating at scale.
+            scale. No KYC, no API keys — pay with USDC and go.
           </p>
 
           <div className="flex flex-wrap justify-center gap-4 mb-6">
@@ -110,7 +110,19 @@ const FinalCTA = () => {
               href="#pricing"
               className="neon-button-primary text-lg px-10 py-4"
             >
-              Get solProxy
+              Start free
+            </a>
+            <a
+              href="#mcp-server"
+              className="neon-button text-lg px-8 py-4"
+            >
+              Talk to solProxy
+            </a>
+            <a
+              href="#"
+              className="neon-button text-lg px-8 py-4"
+            >
+              Docs
             </a>
           </div>
 

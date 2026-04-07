@@ -8,30 +8,30 @@ gsap.registerPlugin(ScrollTrigger);
 const features = [
   {
     icon: Shield,
-    title: 'Unmatched Trust Scores',
+    title: 'Real carrier trust scores',
     description:
-      'Mobile IPs come from real carrier networks. Websites see you as a legitimate mobile user, not a bot or datacenter. Bypass anti-bot systems with ease.',
+      'Mobile IPs bypass bot walls. Real carrier networks score as legitimate mobile users, not datacenter traffic — the highest success rates in the industry.',
     color: 'cyan',
   },
   {
     icon: RefreshCw,
-    title: 'Fresh IPs on Demand',
+    title: 'Rotation on demand',
     description:
-      'Rotate to a new IP anytime. Shared tier: every 5 minutes. Private tier: every 1 minute via airplane mode reset. Stay undetectable.',
+      'Rotate anytime via chat or MCP — get a fresh IP in ~2s. Shared tier cycles every ~5 min, private tier every ~1 min via airplane mode reset.',
     color: 'purple',
   },
   {
     icon: MapPin,
-    title: 'Real Geo-Targeting',
+    title: 'Geo-targeting in 10+ countries',
     description:
-      'Access content as a local. Our proxies use real carrier IPs from Germany, UK, France, USA, and 6+ more countries.',
+      'Access content as a local. Real carrier IPs from USA, Germany, UK, France, and 6+ more countries. Pick your country per endpoint.',
     color: 'teal',
   },
   {
     icon: Network,
-    title: 'CGNAT Advantage',
+    title: 'CGNAT noise = harder fingerprinting',
     description:
-      'Carrier-Grade NAT means many real users share each IP. Platforms expect this — it\'s how mobile networks actually work.',
+      'Carrier-Grade NAT means many real users share each IP. Platforms expect this pattern — it makes your agents significantly harder to fingerprint.',
     color: 'cyan',
   },
 ];
@@ -119,15 +119,16 @@ const WhyMobile = () => {
           {/* Left Column - Headline */}
           <div ref={headlineRef} className="lg:w-[40vw] lg:sticky lg:top-32 lg:self-start">
             <span className="font-mono text-xs uppercase tracking-wider text-cyan mb-4 block">
-              Why Mobile Proxies
+              Why Mobile IPs
             </span>
             <h2 className="font-display font-bold text-3xl lg:text-5xl text-text-primary mb-6 leading-tight">
-              Why Mobile Proxies<br />
+              Why Mobile IPs<br />
               <span className="text-gradient">Beat Everything Else</span>
             </h2>
             <p className="text-text-secondary text-base lg:text-lg leading-relaxed">
-              Mobile IPs from real carrier networks are trusted by every website.
-              Experience the highest success rates in the industry.
+              Real carrier trust scores, geo-targeting in 10+ countries, and
+              CGNAT noise make mobile IPs the hardest to block — and the
+              easiest to rotate.
             </p>
 
             {/* Connector Line (visible on desktop) */}

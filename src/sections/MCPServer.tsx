@@ -9,25 +9,25 @@ gsap.registerPlugin(ScrollTrigger);
 const chatMessages = [
   {
     type: "user" as const,
-    content: "Create a shared proxy in Germany",
+    content: "Create a US endpoint",
   },
   {
     type: "ai" as const,
-    content: "Port created successfully!",
+    content: "Endpoint created successfully!",
     details: {
-      http: "de.solproxy.io:8080",
-      socks5: "de.solproxy.io:1080",
-      country: "Germany",
-      carrier: "Vodafone",
+      http: "us.solproxy.io:8080",
+      socks5: "us.solproxy.io:1080",
+      country: "United States",
+      carrier: "T-Mobile",
     },
   },
   {
     type: "user" as const,
-    content: "Rotate the IP now",
+    content: "Rotate now",
   },
   {
     type: "ai" as const,
-    content: "IP rotated! New IP: 185.xxx.xxx.xxx",
+    content: "New IP assigned in ~2s. Ready.",
   },
 ];
 
@@ -212,8 +212,9 @@ const MCPServer = () => {
             </h2>
 
             <p className="text-text-secondary text-base lg:text-lg leading-relaxed mb-8">
-              Let AI assistants like Claude, Cursor, and Cline manage your
-              mobile proxy infrastructure through natural language.
+              Let Claude, Cursor, or Cline manage your mobile proxy
+              infrastructure through natural language. 55 MCP tools. Create
+              endpoints, rotate IPs, monitor status — no dashboard needed.
             </p>
 
             <div className="space-y-4">

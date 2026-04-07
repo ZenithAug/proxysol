@@ -147,20 +147,18 @@ const Hero = () => {
               {/* Headline */}
               <div ref={headlineRef} className="space-y-2 mb-6">
                 <h1 className="font-display font-bold text-4xl lg:text-6xl xl:text-7xl text-text-primary leading-none">
-                  <span className="word inline-block">4G/5G</span>
+                  <span className="word inline-block">AI that roams.</span>
                 </h1>
                 <h1 className="font-display font-bold text-3xl lg:text-5xl xl:text-6xl text-gradient leading-none">
-                  <span className="word inline-block">AI-Native</span>{" "}
-                  <span className="word inline-block">Mobile</span>{" "}
-                  <span className="word inline-block">Network</span>{" "}
-                  <span className="word inline-block">Stack</span>
+                  <span className="word inline-block">Mobile IPs</span>{" "}
+                  <span className="word inline-block">on tap.</span>
                 </h1>
               </div>
 
               {/* Subheadline */}
               <p className="text-text-secondary text-base lg:text-lg max-w-2xl leading-relaxed">
-                The cleanest IPs on the internet. Actual phones on carrier
-                networks. Bypass CAPTCHAs, verify accounts, scrape at scale.
+                Give your agents clean 4G/5G IPs in 10+ countries. No KYC, no
+                API keys — pay with USDC and go.
               </p>
             </div>
 
@@ -169,18 +167,20 @@ const Hero = () => {
               {/* CTAs */}
               <div ref={ctaRef} className="flex flex-wrap gap-4 mb-4">
                 <a href="#pricing" className="neon-button-primary">
-                  Get solProxy
+                  Start free
                 </a>
-                <a href="#pricing" className="neon-button">
-                  View Pricing
+                <a href="#mcp-server" className="neon-button">
+                  See a live demo
                 </a>
               </div>
 
               {/* Microcopy */}
               <p className="text-text-secondary text-sm">
+                For builders:{" "}
+                <a href="#ai-native" className="text-cyan hover:underline font-mono text-xs transition-colors">x402 / MCP →</a>
+                {" • "}
                 Starting at{" "}
-                <span className="text-cyan font-semibold">$36/mo</span> • No
-                credit card for trial
+                <span className="text-cyan font-semibold">$36/mo</span>
               </p>
             </div>
           </div>
