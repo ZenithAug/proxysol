@@ -166,7 +166,12 @@ const Hero = () => {
             <div>
               {/* CTAs */}
               <div ref={ctaRef} className="flex flex-wrap gap-4 mb-4">
-                <a href="#pricing" className="neon-button-primary">
+                <a
+                  href="https://t.me/sol_proxy"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="neon-button-primary"
+                >
                   Start free
                 </a>
                 <a href="#mcp-server" className="neon-button">
@@ -175,13 +180,32 @@ const Hero = () => {
               </div>
 
               {/* Microcopy */}
-              <p className="text-text-secondary text-sm">
+              <p className="text-text-secondary text-sm mb-4">
                 For builders:{" "}
                 <a href="#ai-native" className="text-cyan hover:underline font-mono text-xs transition-colors">x402 / MCP →</a>
                 {" • "}
                 Starting at{" "}
                 <span className="text-cyan font-semibold">$36/mo</span>
               </p>
+
+              {/* Micro-proof bar */}
+              <div className="flex flex-wrap gap-2">
+                {[
+                  "10+ countries",
+                  "<60s setup",
+                  "Real carrier IPs",
+                  "~2s settlement",
+                  "Rotate on demand",
+                ].map((pill) => (
+                  <span
+                    key={pill}
+                    className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-white/[0.04] border border-white/10 text-text-secondary text-xs font-mono"
+                  >
+                    <span className="w-1 h-1 rounded-full bg-cyan opacity-70 flex-shrink-0" />
+                    {pill}
+                  </span>
+                ))}
+              </div>
             </div>
           </div>
 

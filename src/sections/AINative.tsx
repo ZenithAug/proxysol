@@ -165,11 +165,29 @@ const AINative = () => {
               <span className="text-gradient">AI Agents</span>
             </h2>
 
-            <p className="text-text-secondary text-base lg:text-lg leading-relaxed mb-8">
+            <p className="text-text-secondary text-base lg:text-lg leading-relaxed mb-6">
               Account verification, checkout bots, scraping, and LLM browsing
-              — your agents need clean mobile IPs at every step. No accounts.
-              No API keys. No human in the loop.
+              — your agents need clean mobile IPs at every step.
             </p>
+
+            {/* 3-step How it Works */}
+            <ol className="space-y-3 mb-8">
+              {[
+                { n: 1, title: "Connect wallet with USDC", sub: "No account, no KYC, no approval" },
+                { n: 2, title: "Create an endpoint", sub: "Pick country, HTTP or SOCKS5" },
+                { n: 3, title: "Rotate anytime via chat or MCP", sub: "Fresh IP in ~2s" },
+              ].map(({ n, title, sub }) => (
+                <li key={n} className="flex items-start gap-3">
+                  <span className="flex-shrink-0 w-7 h-7 rounded-full bg-cyan/10 border border-cyan/30 text-cyan text-xs font-bold flex items-center justify-center mt-0.5">
+                    {n}
+                  </span>
+                  <div>
+                    <p className="text-text-primary text-sm font-semibold">{title}</p>
+                    <p className="text-text-secondary text-xs">{sub}</p>
+                  </div>
+                </li>
+              ))}
+            </ol>
 
             <div className="flex items-center gap-4">
               <img

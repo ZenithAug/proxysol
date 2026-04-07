@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { Users, Server, Globe, Wallet, Calculator } from "lucide-react";
+import { Users, Server, Globe, Wallet, Calculator, ChevronDown } from "lucide-react";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -44,6 +44,15 @@ const PeerMarket = () => {
   const cardBRef = useRef<HTMLDivElement>(null);
   const cardCRef = useRef<HTMLDivElement>(null);
   const [selectedOption, setSelectedOption] = useState(1);
+  const [openFaq, setOpenFaq] = useState<number | null>(0);
+
+  const faqs = [
+    { q: "Is KYC required?", a: "No. You only need a Solana or Base wallet with USDC." },
+    { q: "Do you use API keys?", a: "No. We use the x402 protocol (HTTP 402 Payment Required). You pay on-request directly from your wallet." },
+    { q: "What payment methods are supported?", a: "USDC on Solana and Base. $PROXY token payments are optional." },
+    { q: "How long does setup take?", a: "Less than 60 seconds. Connect your wallet, pick a country, and start requesting." },
+    { q: "Is there 24/7 support?", a: "Yes. Reach out to us via Telegram anytime." }
+  ];
 
   useEffect(() => {
     const section = sectionRef.current;
@@ -183,50 +192,44 @@ const PeerMarket = () => {
           {/* Card A - Headline Card */}
           <div
             ref={cardARef}
-            className="gloss-card w-full lg:w-[40vw] h-auto lg:h-[72vh] p-6 lg:p-10 flex flex-col justify-center"
+            className="gloss-card w-full lg:w-[40vw] h-auto lg:h-[72vh] p-6 lg:p-10 flex flex-col justify-center overflow-y-auto custom-scrollbar"
             style={{ willChange: "transform, opacity" }}
           >
             <div className="flex items-center gap-3 mb-6">
-              <div className="w-12 h-12 rounded-xl bg-purple/10 flex items-center justify-center">
+              <div className="w-12 h-12 rounded-xl bg-purple/10 flex items-center justify-center flex-shrink-0">
                 <Wallet className="w-6 h-6 text-purple" />
               </div>
               <span className="font-mono text-xs uppercase tracking-wider text-purple">
-                Peer Marketplace
+                FAQ & Earnings
               </span>
             </div>
 
-            <h2 className="font-display font-bold text-3xl lg:text-5xl text-text-primary mb-6 leading-tight">
-              Earn USDC
+            <h2 className="font-display font-bold text-3xl lg:text-5xl text-text-primary mb-6 leading-tight shrink-0">
+              Answers &
               <br />
-              <span className="text-gradient">Passively</span>
+              <span className="text-gradient">Peer Network</span>
             </h2>
 
-            <p className="text-text-secondary text-base lg:text-lg leading-relaxed mb-8">
-              Run a proxy agent on your devices and earn USDC automatically. Our
-              network pays $0.02-0.25/GB for shared bandwidth.
-            </p>
-
-            <div className="space-y-4">
-              <div className="flex items-center gap-3">
-                <div className="w-8 h-8 rounded-lg bg-cyan/10 flex items-center justify-center">
-                  <Wallet className="w-4 h-4 text-cyan" />
+            <div className="space-y-3 flex-grow pb-4">
+              {faqs.map((faq, i) => (
+                <div 
+                  key={i} 
+                  className={`border ${openFaq === i ? 'border-purple/30 bg-purple/5' : 'border-white/5 bg-bg-primary/50'} rounded-xl transition-colors overflow-hidden`}
+                >
+                  <button 
+                    className="w-full text-left p-4 flex justify-between items-center gap-4"
+                    onClick={() => setOpenFaq(openFaq === i ? null : i)}
+                  >
+                    <span className="text-text-primary text-sm font-semibold pr-4">{faq.q}</span>
+                    <ChevronDown className={`w-4 h-4 text-text-secondary transition-transform flex-shrink-0 ${openFaq === i ? 'rotate-180 text-purple' : ''}`} />
+                  </button>
+                  <div 
+                    className={`px-4 pb-4 text-text-secondary text-sm overflow-hidden transition-all duration-300 ${openFaq === i ? 'max-h-[200px] opacity-100' : 'max-h-0 opacity-0 pb-0'}`}
+                  >
+                    {faq.a}
+                  </div>
                 </div>
-                <span className="text-text-secondary">
-                  Instant USDC Payouts
-                </span>
-              </div>
-              <div className="flex items-center gap-3">
-                <div className="w-8 h-8 rounded-lg bg-purple/10 flex items-center justify-center">
-                  <span className="text-purple text-xs font-bold">SOL</span>
-                </div>
-                <span className="text-text-secondary">Solana Wallet</span>
-              </div>
-              <div className="flex items-center gap-3">
-                <div className="w-8 h-8 rounded-lg bg-teal/10 flex items-center justify-center">
-                  <span className="text-teal text-xs font-bold">API</span>
-                </div>
-                <span className="text-text-secondary">Simple Registration</span>
-              </div>
+              ))}
             </div>
           </div>
 

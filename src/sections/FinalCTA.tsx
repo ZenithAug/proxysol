@@ -107,22 +107,12 @@ const FinalCTA = () => {
 
           <div className="flex flex-wrap justify-center gap-4 mb-6">
             <a
-              href="#pricing"
+              href="https://t.me/sol_proxy"
+              target="_blank"
+              rel="noopener noreferrer"
               className="neon-button-primary text-lg px-10 py-4"
             >
               Start free
-            </a>
-            <a
-              href="#mcp-server"
-              className="neon-button text-lg px-8 py-4"
-            >
-              Talk to solProxy
-            </a>
-            <a
-              href="#"
-              className="neon-button text-lg px-8 py-4"
-            >
-              Docs
             </a>
           </div>
 

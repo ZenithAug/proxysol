@@ -6,10 +6,10 @@ import { Activity, Globe, Clock, MessageSquare, Shield, Server, Lock } from 'luc
 gsap.registerPlugin(ScrollTrigger);
 
 const stats = [
-  { icon: Activity, value: 50, suffix: 'M+', label: 'Requests This Month', color: 'cyan' },
-  { icon: Globe, value: 15, suffix: '+', label: 'Countries Active', color: 'purple' },
-  { icon: Clock, value: 95, suffix: '%', label: 'Network Uptime', color: 'teal' },
-  { icon: MessageSquare, value: 2, suffix: 'min', label: 'Support Response', color: 'cyan' },
+  { icon: Globe, value: "15+", label: "Countries Active", color: "purple" },
+  { icon: Activity, value: "<60s", label: "Setup Time", color: "cyan" },
+  { icon: Clock, value: "~2s", label: "On-Chain Settlement", color: "teal" },
+  { icon: MessageSquare, value: "24/7", label: "Support Response", color: "cyan" },
 ];
 
 const securityFeatures = [
@@ -27,41 +27,15 @@ const securityFeatures = [
   },
 ];
 
-const useCountUp = (end: number, duration: number = 2, start: boolean = false) => {
-  const [count, setCount] = useState(0);
-
-  useEffect(() => {
-    if (!start) return;
-
-    let startTime: number;
-    let animationFrame: number;
-
-    const animate = (timestamp: number) => {
-      if (!startTime) startTime = timestamp;
-      const progress = Math.min((timestamp - startTime) / (duration * 1000), 1);
-      setCount(Math.floor(progress * end));
-
-      if (progress < 1) {
-        animationFrame = requestAnimationFrame(animate);
-      }
-    };
-
-    animationFrame = requestAnimationFrame(animate);
-
-    return () => cancelAnimationFrame(animationFrame);
-  }, [end, duration, start]);
-
-  return count;
-};
-
 const StatCard = ({ 
   stat, 
-  inView 
+  inView,
+  index
 }: { 
   stat: typeof stats[0]; 
   inView: boolean;
+  index: number;
 }) => {
-  const count = useCountUp(stat.value, 2, inView);
   const Icon = stat.icon;
   const colorClass = 
     stat.color === 'cyan' ? 'text-cyan bg-cyan/10' : 
@@ -69,12 +43,19 @@ const StatCard = ({
     'text-teal bg-teal/10';
 
   return (
-    <div className="stat-card gloss-card p-6 text-center">
+    <div 
+      className={`stat-card gloss-card p-6 text-center transition-all duration-700`}
+      style={{ 
+        opacity: inView ? 1 : 0, 
+        transform: inView ? 'translateY(0)' : 'translateY(20px)',
+        transitionDelay: `${index * 100}ms`
+      }}
+    >
       <div className={`w-12 h-12 rounded-xl flex items-center justify-center mx-auto mb-4 ${colorClass}`}>
         <Icon className="w-6 h-6" />
       </div>
-      <p className={`text-4xl lg:text-5xl font-display font-bold ${colorClass.split(' ')[0]} mb-2`}>
-        {count}{stat.suffix}
+      <p className={`text-3xl lg:text-4xl font-display font-bold ${colorClass.split(' ')[0]} mb-2`}>
+        {stat.value}
       </p>
       <p className="text-text-secondary text-sm">{stat.label}</p>
     </div>
@@ -165,11 +146,11 @@ const LiveStats = () => {
           {/* Left Column - Headline */}
           <div ref={headlineRef} className="lg:w-[40vw]">
             <span className="font-mono text-xs uppercase tracking-wider text-cyan mb-4 block">
-              Real-Time Metrics
+              Network Facts
             </span>
             <h2 className="font-display font-bold text-3xl lg:text-5xl text-text-primary mb-6 leading-tight">
-              Live Network<br />
-              <span className="text-gradient">Stats</span>
+              Honest Network<br />
+              <span className="text-gradient">Claims</span>
             </h2>
             <p className="text-text-secondary text-base lg:text-lg leading-relaxed">
               Transparent infrastructure with real-time monitoring. 
@@ -190,6 +171,7 @@ const LiveStats = () => {
                   key={idx} 
                   stat={stat} 
                   inView={statsInView}
+                  index={idx}
                 />
               ))}
             </div>

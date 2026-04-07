@@ -1,7 +1,8 @@
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { Check, Users, Server, Zap } from 'lucide-react';
+import { CheckoutModal } from '../components/CheckoutModal';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -56,6 +57,12 @@ const Pricing = () => {
   const headlineRef = useRef<HTMLDivElement>(null);
   const cardsRef = useRef<HTMLDivElement>(null);
   const comparisonRef = useRef<HTMLDivElement>(null);
+
+  const [checkoutData, setCheckoutData] = useState<{ isOpen: boolean; tierGb: number; priceUsd: number }>({
+    isOpen: false,
+    tierGb: 0,
+    priceUsd: 0,
+  });
 
   useEffect(() => {
     const section = sectionRef.current;
@@ -223,6 +230,7 @@ const Pricing = () => {
                 </ul>
 
                 <button
+                  onClick={() => setCheckoutData({ isOpen: true, tierGb: tier.gb, priceUsd: tier.price })}
                   className={`w-full py-3 rounded-xl font-semibold text-sm transition-all ${
                     isFeatured
                       ? 'neon-button-primary'
@@ -287,6 +295,13 @@ const Pricing = () => {
           </div>
         </div>
       </div>
+      
+      <CheckoutModal 
+        isOpen={checkoutData.isOpen}
+        onClose={() => setCheckoutData((prev: { isOpen: boolean; tierGb: number; priceUsd: number }) => ({ ...prev, isOpen: false }))}
+        tierGb={checkoutData.tierGb}
+        priceUsd={checkoutData.priceUsd}
+      />
     </section>
   );
 };

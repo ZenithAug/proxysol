@@ -1,7 +1,7 @@
 import { useEffect, useRef } from "react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { Bot, User, Copy, Check } from "lucide-react";
+import { Bot, User } from "lucide-react";
 import { useState } from "react";
 
 gsap.registerPlugin(ScrollTrigger);
@@ -9,25 +9,37 @@ gsap.registerPlugin(ScrollTrigger);
 const chatMessages = [
   {
     type: "user" as const,
-    content: "Create a US endpoint",
+    content: "curl -x us-east.solproxy.io:7777 https://api.target.com/data",
   },
   {
     type: "ai" as const,
-    content: "Endpoint created successfully!",
+    isError: true,
+    content: "HTTP 402 Payment Required",
     details: {
-      http: "us.solproxy.io:8080",
-      socks5: "us.solproxy.io:1080",
-      country: "United States",
-      carrier: "T-Mobile",
+      invoice: "mpp_inv_9xk2...",
+      rate: "0.001 USDC / MB",
+      gateway: "Tempo MPP",
     },
   },
   {
     type: "user" as const,
-    content: "Rotate now",
+    content: "Automating micropayment via Tempo... Paid.",
   },
   {
     type: "ai" as const,
-    content: "New IP assigned in ~2s. Ready.",
+    content: "Payment verified. Macaroon token minted.",
+  },
+  {
+    type: "user" as const,
+    content: "Retrying with x402 Token attached...",
+  },
+  {
+    type: "ai" as const,
+    content: "HTTP 200 OK",
+    details: {
+      bytes: "1.4 MB",
+      latency: "42ms",
+    },
   },
 ];
 
@@ -35,46 +47,39 @@ const MCPServer = () => {
   const sectionRef = useRef<HTMLDivElement>(null);
   const cardARef = useRef<HTMLDivElement>(null);
   const cardBRef = useRef<HTMLDivElement>(null);
-  const [copied, setCopied] = useState<string | null>(null);
+  const [sequenceIndex, setSequenceIndex] = useState(0);
 
-  const copyText = async (text: string): Promise<boolean> => {
-    try {
-      if (navigator.clipboard && window.isSecureContext) {
-        await navigator.clipboard.writeText(text);
-        return true;
-      }
+  useEffect(() => {
+    const delays = [1000, 1500, 800, 2000, 1500, 800, 2000, 1500, 800, 3000, 4000];
+    let current = 0;
+    let timer: ReturnType<typeof setTimeout>;
 
-      const textArea = document.createElement("textarea");
-      textArea.value = text;
-      textArea.setAttribute("readonly", "");
-      textArea.style.position = "fixed";
-      textArea.style.opacity = "0";
-      textArea.style.left = "-9999px";
-      document.body.appendChild(textArea);
-      textArea.select();
+    const next = () => {
+      current = (current + 1) % delays.length;
+      setSequenceIndex(current);
+      timer = setTimeout(next, delays[current]);
+    };
 
-      try {
-        const result = document.execCommand("copy");
-        return result;
-      } catch (err) {
-        console.error("Failed to copy text:", err);
-        return false;
-      } finally {
-        document.body.removeChild(textArea);
-      }
-    } catch (err) {
-      console.error("Copy operation failed:", err);
-      return false;
-    }
-  };
+    timer = setTimeout(next, delays[0]);
+    return () => clearTimeout(timer);
+  }, []);
 
-  const handleCopy = async (text: string, key: string) => {
-    const didCopy = await copyText(text);
-    if (!didCopy) return;
+  const visibleMessagesCount = 
+    sequenceIndex >= 10 ? 6 :
+    sequenceIndex >= 8 ? 5 :
+    sequenceIndex >= 7 ? 4 :
+    sequenceIndex >= 5 ? 3 :
+    sequenceIndex >= 4 ? 2 :
+    sequenceIndex >= 2 ? 1 : 0;
 
-    setCopied(key);
-    setTimeout(() => setCopied(null), 2000);
-  };
+  const inputText = 
+    sequenceIndex === 1 ? "curl -x us-east.proxy..." :
+    sequenceIndex === 4 ? "Paying invoice..." :
+    sequenceIndex === 7 ? "Retrying with token..." :
+    (sequenceIndex === 2 || sequenceIndex === 5 || sequenceIndex === 8) ? "" :
+    "Agent listening...";
+
+
 
   useEffect(() => {
     const section = sectionRef.current;
@@ -110,28 +115,6 @@ const MCPServer = () => {
           { x: 0, rotateY: 0, opacity: 1, ease: "none" },
           0,
         );
-
-        // Message bubbles stagger
-        const bubbles = cardB.querySelectorAll(".chat-bubble");
-        bubbles.forEach((bubble, index) => {
-          scrollTl.fromTo(
-            bubble,
-            { y: 18, opacity: 0 },
-            { y: 0, opacity: 1, ease: "none" },
-            0.08 + index * 0.04,
-          );
-        });
-
-        // Result block
-        const resultBlock = cardB.querySelector(".result-block");
-        if (resultBlock) {
-          scrollTl.fromTo(
-            resultBlock,
-            { scale: 0.96, opacity: 0 },
-            { scale: 1, opacity: 1, ease: "none" },
-            0.22,
-          );
-        }
 
         // EXIT (70% - 100%)
         scrollTl.fromTo(
@@ -255,7 +238,7 @@ const MCPServer = () => {
                 <Bot className="w-4 h-4 text-cyan" />
               </div>
               <span className="font-display font-semibold text-text-primary">
-                Claude Code
+                Agentic Proxy Flow (x402)
               </span>
               <span className="ml-auto text-xs text-text-secondary">
                 Online
@@ -263,14 +246,16 @@ const MCPServer = () => {
             </div>
 
             {/* Chat Messages */}
-            <div className="flex-1 space-y-4 overflow-y-auto">
-              {chatMessages.map((message, index) => (
-                <div
-                  key={index}
-                  className={`chat-bubble flex gap-3 ${
-                    message.type === "user" ? "flex-row-reverse" : ""
-                  }`}
-                >
+            <div className="flex-1 space-y-4 overflow-y-auto mt-2">
+              {chatMessages.map((message, index) => {
+                const isVisible = index < visibleMessagesCount;
+                return (
+                  <div
+                    key={index}
+                    className={`chat-bubble flex gap-3 transition-all duration-500 ${
+                      message.type === "user" ? "flex-row-reverse" : ""
+                    } ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4 absolute pointer-events-none"}`}
+                  >
                   <div
                     className={`w-8 h-8 rounded-lg flex items-center justify-center flex-shrink-0 ${
                       message.type === "user" ? "bg-purple/10" : "bg-cyan/10"
@@ -286,6 +271,8 @@ const MCPServer = () => {
                     className={`max-w-[80%] px-4 py-3 rounded-2xl text-sm ${
                       message.type === "user"
                         ? "bg-purple/10 border border-purple/20 text-text-primary"
+                        : "isError" in message && message.isError
+                        ? "bg-red-500/10 border border-red-500/20 text-red-100"
                         : "bg-cyan/5 border border-cyan/20 text-text-primary"
                     }`}
                   >
@@ -293,82 +280,29 @@ const MCPServer = () => {
                     {"details" in message && message.details && (
                       <div className="result-block mt-3 p-3 rounded-xl bg-bg-primary/50 border border-cyan/20">
                         <div className="space-y-2 text-xs">
-                          <div className="flex items-center justify-between">
-                            <span className="text-text-secondary">HTTP:</span>
-                            <div className="flex items-center gap-2">
-                              <code className="text-cyan">
-                                {message.details.http}
-                              </code>
-                              <button
-                                type="button"
-                                aria-label="Copy HTTP endpoint"
-                                onClick={() => {
-                                  void handleCopy(message.details.http, "http");
-                                }}
-                                className="text-text-secondary hover:text-cyan transition-colors"
-                              >
-                                {copied === "http" ? (
-                                  <Check className="w-3 h-3" />
-                                ) : (
-                                  <Copy className="w-3 h-3" />
-                                )}
-                              </button>
+                          {Object.entries(message.details).map(([k, v]) => (
+                            <div key={k} className="flex items-center justify-between">
+                              <span className="text-text-secondary capitalize">{k}:</span>
+                              <span className="text-cyan">{v}</span>
                             </div>
-                          </div>
-                          <div className="flex items-center justify-between">
-                            <span className="text-text-secondary">SOCKS5:</span>
-                            <div className="flex items-center gap-2">
-                              <code className="text-cyan">
-                                {message.details.socks5}
-                              </code>
-                              <button
-                                type="button"
-                                aria-label="Copy SOCKS5 endpoint"
-                                onClick={() => {
-                                  void handleCopy(
-                                    message.details.socks5,
-                                    "socks5",
-                                  );
-                                }}
-                                className="text-text-secondary hover:text-cyan transition-colors"
-                              >
-                                {copied === "socks5" ? (
-                                  <Check className="w-3 h-3" />
-                                ) : (
-                                  <Copy className="w-3 h-3" />
-                                )}
-                              </button>
-                            </div>
-                          </div>
-                          <div className="flex items-center justify-between">
-                            <span className="text-text-secondary">
-                              Country:
-                            </span>
-                            <span className="text-text-primary">
-                              {message.details.country}
-                            </span>
-                          </div>
-                          <div className="flex items-center justify-between">
-                            <span className="text-text-secondary">
-                              Carrier:
-                            </span>
-                            <span className="text-text-primary">
-                              {message.details.carrier}
-                            </span>
-                          </div>
+                          ))}
                         </div>
                       </div>
                     )}
                   </div>
                 </div>
-              ))}
+                );
+              })}
             </div>
 
             {/* Chat Input */}
             <div className="mt-4 pt-4 border-t border-white/5">
-              <div className="flex items-center gap-3 px-4 py-3 rounded-xl bg-bg-primary/50 border border-white/5">
-                <span className="text-text-secondary text-sm">
-                  Type a command...
+              <div className="flex items-center gap-3 px-4 py-3 rounded-xl bg-bg-primary/50 border border-white/5 transition-all w-full min-h-[46px]">
+                <span className={`text-sm ${inputText === "Agent listening..." ? "text-text-secondary" : "text-text-primary"}`}>
+                  {inputText}
+                  {(sequenceIndex === 1 || sequenceIndex === 4) && (
+                    <span className="animate-pulse inline-block -ml-[2px]">_</span>
+                  )}
                 </span>
               </div>
             </div>

@@ -1,10 +1,12 @@
 import { useState, useEffect, useRef } from "react";
 import { Menu, X, Globe, ChevronRight } from "lucide-react";
+import { useAppStore } from "../stores/useAppStore";
 
 const Navigation = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const tickingRef = useRef(false);
+  const { hasPurchased } = useAppStore();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -34,10 +36,10 @@ const Navigation = () => {
   }, [isMobileMenuOpen]);
 
   const navLinks = [
-    { label: "How it Works", href: "#how-it-works" },
+    { label: "How it Works", href: "#ai-native" },
     { label: "Pricing", href: "#pricing" },
     { label: "MCP Server", href: "#mcp-server" },
-    { label: "Live Stats", href: "#stats" },
+    { label: "FAQ", href: "#peer-market" },
   ];
 
   const closeMobileMenu = () => setIsMobileMenuOpen(false);
@@ -92,12 +94,23 @@ const Navigation = () => {
               </button>
 
               {/* CTA Button */}
-              <a
-                href="#pricing"
-                className="hidden lg:block neon-button-primary text-sm"
-              >
-                Get solProxy
-              </a>
+              {hasPurchased ? (
+                <button
+                  onClick={() => { window.scrollTo(0, 0); }}
+                  className="hidden lg:block bg-cyan/10 text-cyan border border-cyan/20 px-6 py-2.5 rounded-xl font-medium text-sm hover:bg-cyan/20 transition-all"
+                >
+                  Dashboard
+                </button>
+              ) : (
+                <a
+                  href="https://t.me/sol_proxy"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="hidden lg:block neon-button-primary text-sm"
+                >
+                  Start free
+                </a>
+              )}
 
               {/* Mobile Menu Button */}
               <button
@@ -199,13 +212,24 @@ const Navigation = () => {
                 : "0ms",
             }}
           >
-            <a
-              href="#pricing"
-              className="block w-full text-center neon-button-primary py-4 text-base"
-              onClick={closeMobileMenu}
-            >
-              Get solProxy
-            </a>
+            {hasPurchased ? (
+              <button
+                className="block w-full text-center bg-cyan/10 text-cyan border border-cyan/20 py-4 rounded-xl text-base font-medium"
+                onClick={() => { closeMobileMenu(); window.scrollTo(0, 0); }}
+              >
+                Dashboard
+              </button>
+            ) : (
+              <a
+                href="https://t.me/sol_proxy"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="block w-full text-center neon-button-primary py-4 text-base"
+                onClick={closeMobileMenu}
+              >
+                Start free
+              </a>
+            )}
             <button className="flex items-center justify-center gap-2 w-full py-3 text-sm text-text-secondary hover:text-cyan transition-colors">
               <Globe className="w-4 h-4" />
               <span>Language: EN</span>

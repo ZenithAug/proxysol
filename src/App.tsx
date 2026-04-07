@@ -12,6 +12,8 @@ import LiveStats from "./sections/LiveStats";
 import Pricing from "./sections/Pricing";
 import TokenEconomy from "./sections/TokenEconomy";
 import FinalCTA from "./sections/FinalCTA";
+import { Dashboard } from "./sections/Dashboard";
+import { useAppStore } from "./stores/useAppStore";
 import "./index.css";
 
 gsap.registerPlugin(ScrollTrigger);
@@ -25,6 +27,7 @@ interface PinnedRange {
 function App() {
   const mainRef = useRef<HTMLDivElement>(null);
   const snapTriggerRef = useRef<ScrollTrigger | null>(null);
+  const { hasPurchased } = useAppStore();
 
   useEffect(() => {
     // Only enable snap behaviour on desktop (lg breakpoint = 1024px)
@@ -101,16 +104,22 @@ function App() {
 
       {/* Main Content */}
       <main className="relative">
-        <Hero />
-        <AINative />
-        <WhyMobile />
-        <MCPServer />
-        <PeerMarket />
-        <GlobalCoverage />
-        <LiveStats />
-        <Pricing />
-        <TokenEconomy />
-        <FinalCTA />
+        {hasPurchased ? (
+          <Dashboard />
+        ) : (
+          <>
+            <Hero />
+            <AINative />
+            <WhyMobile />
+            <MCPServer />
+            <PeerMarket />
+            <GlobalCoverage />
+            <LiveStats />
+            <Pricing />
+            <TokenEconomy />
+            <FinalCTA />
+          </>
+        )}
       </main>
     </div>
   );
