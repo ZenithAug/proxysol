@@ -27,18 +27,29 @@ interface PinnedRange {
 function App() {
   const mainRef = useRef<HTMLDivElement>(null);
   const snapTriggerRef = useRef<ScrollTrigger | null>(null);
-  const { hasPurchased } = useAppStore();
+  const { currentView } = useAppStore();
+  const showDashboard = currentView === "dashboard";
 
   useEffect(() => {
-    // Only enable snap behaviour on desktop (lg breakpoint = 1024px)
-    const isDesktop = window.matchMedia("(min-width: 1024px)").matches;
-    if (!isDesktop) return;
-
-    const setupGlobalSnap = () => {
+    const clearSnapTrigger = () => {
       if (snapTriggerRef.current) {
         snapTriggerRef.current.kill();
         snapTriggerRef.current = null;
       }
+    };
+
+    clearSnapTrigger();
+
+    if (showDashboard) {
+      return clearSnapTrigger;
+    }
+
+    // Only enable snap behaviour on desktop (lg breakpoint = 1024px)
+    const isDesktop = window.matchMedia("(min-width: 1024px)").matches;
+    if (!isDesktop) return clearSnapTrigger;
+
+    const setupGlobalSnap = () => {
+      clearSnapTrigger();
 
       const pinned = ScrollTrigger.getAll()
         .filter((st: ScrollTrigger) => st.vars.pin)
@@ -83,13 +94,9 @@ function App() {
 
     return () => {
       clearTimeout(timer);
-      if (snapTriggerRef.current) {
-        snapTriggerRef.current.kill();
-        snapTriggerRef.current = null;
-      }
-      ScrollTrigger.getAll().forEach((st: ScrollTrigger) => st.kill());
+      clearSnapTrigger();
     };
-  }, []);
+  }, [showDashboard]);
 
   return (
     <div ref={mainRef} className="relative bg-bg-primary min-h-screen">
@@ -104,7 +111,7 @@ function App() {
 
       {/* Main Content */}
       <main className="relative">
-        {hasPurchased ? (
+        {showDashboard ? (
           <Dashboard />
         ) : (
           <>

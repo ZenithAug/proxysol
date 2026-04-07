@@ -3,7 +3,7 @@ import { useAppStore, type UserProxyDetails } from '../stores/useAppStore';
 import {
   Copy, Check, Terminal, Shield, RefreshCw, Zap, Database,
   ExternalLink, LogOut, ChevronRight, Activity, Bot, AlertTriangle,
-  CheckCircle2, Clock, ArrowRight, Key
+  CheckCircle2, Clock, ArrowRight, Key, Link2
 } from 'lucide-react';
 
 // ── Copyable credential field ─────────────────────────────────────────────
@@ -298,22 +298,72 @@ async def agent_fetch(url: str) -> dict:
 
 // ── Main Dashboard ────────────────────────────────────────────────────────
 export function Dashboard() {
-  const { proxyDetails, resetPurchase, agentTokenBalance } = useAppStore();
-  const [activeTab, setActiveTab] = useState<'credentials' | 'agent' | 'code'>('credentials');
+  const {
+    hasPurchased,
+    proxyDetails,
+    resetPurchase,
+    agentTokenBalance,
+    activeDashboardTab,
+    setDashboardTab,
+    navigateToLanding,
+  } = useAppStore();
 
-  // Redirect landing if no purchase
+  // Avoid a blank screen while payment/session state settles.
   useEffect(() => {
-    if (!proxyDetails) window.scrollTo(0, 0);
+    if (!proxyDetails) {
+      window.scrollTo({ top: 0, behavior: 'auto' });
+    }
   }, [proxyDetails]);
 
-  if (!proxyDetails) return null;
+  if (!proxyDetails) {
+    return (
+      <div className="min-h-screen bg-zinc-950 text-white pt-16 lg:pt-20">
+        <div className="mx-auto flex min-h-[calc(100vh-5rem)] max-w-3xl items-center justify-center px-6 py-12">
+          <div className="w-full rounded-3xl border border-zinc-800 bg-zinc-900/60 p-8 text-center shadow-2xl">
+            <div className="mx-auto mb-4 h-12 w-12 animate-pulse rounded-2xl bg-cyan-500/10 flex items-center justify-center">
+              <Shield className="h-6 w-6 text-cyan-400" />
+            </div>
+            <h1 className="mb-2 text-xl font-semibold text-white">
+              {hasPurchased ? 'Finishing dashboard activation...' : 'Dashboard unavailable'}
+            </h1>
+            <p className="mx-auto max-w-lg text-sm leading-relaxed text-zinc-400">
+              {hasPurchased
+                ? 'Your payment went through, and we are preparing your proxy session now. If this screen stays here, head back to pricing and try again once.'
+                : 'There is no active proxy session attached to this dashboard yet. Start from pricing to create one.'}
+            </p>
+            <div className="mt-6 flex flex-wrap justify-center gap-3">
+              <button
+                type="button"
+                onClick={() => navigateToLanding(hasPurchased ? 'hero' : 'pricing')}
+                className="rounded-xl border border-cyan-500/20 bg-cyan-500/10 px-5 py-3 text-sm font-medium text-cyan transition-colors hover:bg-cyan-500/20"
+              >
+                {hasPurchased ? 'Back to main site' : 'Go to pricing'}
+              </button>
+              {hasPurchased && (
+                <button
+                  type="button"
+                  onClick={resetPurchase}
+                  className="rounded-xl border border-zinc-700 px-5 py-3 text-sm font-medium text-zinc-300 transition-colors hover:border-red-500/30 hover:text-red-400"
+                >
+                  Reset session
+                </button>
+              )}
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   const usedPct = (proxyDetails.dataUsedGb / proxyDetails.dataLimitGb) * 100;
 
   return (
-    <div className="min-h-screen bg-zinc-950 text-white">
+    <div
+      id="dashboard-overview"
+      className="min-h-screen bg-zinc-950 text-white pt-16 lg:pt-20"
+    >
       {/* Top bar */}
-      <div className="border-b border-zinc-800/60 bg-zinc-950/80 backdrop-blur-xl sticky top-16 z-30">
+      <div className="border-b border-zinc-800/60 bg-zinc-950/80 backdrop-blur-xl sticky top-16 lg:top-20 z-30">
         <div className="max-w-6xl mx-auto px-6 py-4 flex items-center justify-between">
           <div className="flex items-center gap-3">
             <div className="w-8 h-8 rounded-lg bg-cyan-500/20 flex items-center justify-center">
@@ -321,10 +371,20 @@ export function Dashboard() {
             </div>
             <div>
               <h1 className="font-semibold text-white text-sm">SolProxy Dashboard</h1>
-              <p className="text-xs text-zinc-500 font-mono">{proxyDetails.tier} Plan · {proxyDetails.username}</p>
+              <p className="text-xs text-zinc-500 font-mono">
+                {proxyDetails.tier} Plan · {proxyDetails.userId} · {proxyDetails.username}
+              </p>
             </div>
           </div>
           <div className="flex items-center gap-3">
+            <button
+              type="button"
+              onClick={() => navigateToLanding('hero')}
+              className="hidden md:flex items-center gap-1.5 text-xs text-zinc-400 hover:text-white transition-colors"
+            >
+              <ChevronRight className="w-3 h-3 rotate-180" />
+              Main site
+            </button>
             <a
               href="https://t.me/sol_proxy"
               target="_blank"
@@ -389,9 +449,10 @@ export function Dashboard() {
             return (
               <button
                 key={tab}
-                onClick={() => setActiveTab(tab)}
+                type="button"
+                onClick={() => setDashboardTab(tab)}
                 className={`px-4 py-2 rounded-lg text-sm font-medium transition-all ${
-                  activeTab === tab
+                  activeDashboardTab === tab
                     ? 'bg-zinc-700 text-white shadow'
                     : 'text-zinc-500 hover:text-zinc-300'
                 }`}
@@ -403,8 +464,11 @@ export function Dashboard() {
         </div>
 
         {/* ── Tab panels ─────────────────────────────────────────────── */}
-        {activeTab === 'credentials' && (
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        {activeDashboardTab === 'credentials' && (
+          <div
+            id="dashboard-credentials"
+            className="grid grid-cols-1 md:grid-cols-2 gap-6"
+          >
 
             {/* Left: Credentials */}
             <div className="rounded-2xl border border-zinc-800 bg-zinc-900/50 p-6 space-y-5">
@@ -430,6 +494,21 @@ export function Dashboard() {
             <div className="space-y-4">
               <IPCard proxy={proxyDetails} />
 
+              <div className="rounded-2xl border border-zinc-800 bg-zinc-950 p-5 space-y-4">
+                <h3 className="text-sm font-semibold text-zinc-300 flex items-center gap-2">
+                  <Link2 className="w-4 h-4 text-cyan-400" />
+                  Access & Recovery
+                </h3>
+                <div className="space-y-4">
+                  <CredField label="Wallet" value={proxyDetails.walletAddress} />
+                  <CredField label="Access Token" value={proxyDetails.accessToken} secret />
+                  <CredField label="Claim Link" value={proxyDetails.claimUrl} />
+                </div>
+                <p className="text-xs leading-relaxed text-zinc-500">
+                  Use the claim link or access token in another browser to reopen this exact dashboard session.
+                </p>
+              </div>
+
               {/* Transaction receipt */}
               <div className="rounded-2xl border border-zinc-800 bg-zinc-950 p-5 space-y-3">
                 <h3 className="text-sm font-semibold text-zinc-300 flex items-center gap-2">
@@ -438,10 +517,14 @@ export function Dashboard() {
                 </h3>
                 <div className="space-y-2 text-xs font-mono">
                   {[
+                    { k: 'User', v: proxyDetails.userId },
+                    { k: 'Dashboard', v: proxyDetails.dashboardId.slice(0, 18) + '…' },
+                    { k: 'Wallet', v: `${proxyDetails.walletAddress.slice(0, 8)}…${proxyDetails.walletAddress.slice(-6)}` },
                     { k: 'Plan', v: proxyDetails.tier },
                     { k: 'Data', v: `${proxyDetails.dataLimitGb} GB` },
                     { k: 'Network', v: 'Solana' },
                     { k: 'TX', v: proxyDetails.txSignature.slice(0, 24) + '…' },
+                    { k: 'Claim', v: `${proxyDetails.accessToken.slice(0, 16)}…` },
                     { k: 'Purchased', v: new Date(proxyDetails.purchasedAt).toLocaleString() },
                   ].map(({ k, v }) => (
                     <div key={k} className="flex justify-between">
@@ -463,8 +546,8 @@ export function Dashboard() {
           </div>
         )}
 
-        {activeTab === 'agent' && (
-          <div className="space-y-6">
+        {activeDashboardTab === 'agent' && (
+          <div id="dashboard-agent" className="space-y-6">
             {/* Explainer */}
             <div className="rounded-2xl border border-cyan-500/20 bg-cyan-950/20 p-5">
               <div className="flex items-start gap-4">
@@ -516,8 +599,8 @@ export function Dashboard() {
           </div>
         )}
 
-        {activeTab === 'code' && (
-          <div className="space-y-6">
+        {activeDashboardTab === 'code' && (
+          <div id="dashboard-code" className="space-y-6">
             <div className="flex items-center gap-2 text-sm text-zinc-400">
               <ChevronRight className="w-4 h-4 text-zinc-600" />
               Python SDK snippet — drop into any AI agent that supports HTTP streaming
@@ -531,6 +614,9 @@ export function Dashboard() {
                   ['SOLPROXY_PORT', proxyDetails.port],
                   ['SOLPROXY_USER', proxyDetails.username],
                   ['SOLPROXY_PASS', proxyDetails.password],
+                  ['SOLPROXY_WALLET', proxyDetails.walletAddress],
+                  ['SOLPROXY_CLAIM_TOKEN', proxyDetails.accessToken],
+                  ['SOLPROXY_CLAIM_URL', proxyDetails.claimUrl],
                 ].map(([k, v]) => (
                   <div key={k} className="flex items-center gap-2">
                     <span className="text-yellow-400/80">{k}</span>

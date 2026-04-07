@@ -1,0 +1,25 @@
+{
+  "claims": {
+    "claim_01cc95372bfeb636fb48c4fb60108d925ec0fbac09e118e9": {
+      "createdAt": "2026-04-07T19:57:03.291Z",
+      "lastAccessedAt": "2026-04-07T19:58:02.401Z",
+      "agentTokenBalance": 5000,
+      "currentView": "dashboard",
+      "activeDashboardTab": "credentials",
+      "proxyDetails": {
+        "userId": "usr_4191ed",
+        "dashboardId": "dash_4191eda7_mnp1iz61",
+        "walletAddress": "MockWallet66582688A67184F6",
+        "endpoint": "us-east.proxy.solproxy.network",
+        "port": "7777",
+        "username": "sp_c98c0b87",
+        "password": "mpp_9B3B88F1B2A2C7C9",
+        "dataLimitGb": 50,
+        "dataUsedGb": 0,
+        "tier": "Growth",
+        "txSignature": "C659FB5E7A5A0B0E003D4B61F54DE8DF",
+        "purchasedAt": "2026-04-07T19:57:03.241Z"
+      }
+    }
+  }
+}

@@ -5,7 +5,14 @@ import { Zap, Mail } from "lucide-react";
 
 gsap.registerPlugin(ScrollTrigger);
 
-const footerLinks = {
+type FooterLink = {
+  label: string;
+  href: string;
+  isNew?: boolean;
+  external?: boolean;
+};
+
+const footerLinks: Record<string, FooterLink[]> = {
   Product: [
     { label: "How it Works", href: "#how-it-works" },
     { label: "Pricing", href: "#pricing" },
@@ -14,13 +21,13 @@ const footerLinks = {
     { label: "Live Stats", href: "#stats" },
   ],
   Resources: [
-    { label: "Glossary", href: "#" },
-    { label: "Setup Guides", href: "#" },
-    { label: "Use Cases", href: "#" },
+    { label: "Agent Flow", href: "#ai-native" },
+    { label: "Setup Guides", href: "#mcp-server" },
+    { label: "FAQ", href: "#peer-market" },
   ],
-  Legal: [
-    { label: "Privacy Policy", href: "#" },
-    { label: "Terms of Service", href: "#" },
+  Support: [
+    { label: "Telegram", href: "https://t.me/sol_proxy", external: true },
+    { label: "Start Here", href: "#cta" },
   ],
 };
 
@@ -131,7 +138,7 @@ const FinalCTA = () => {
           <div className="grid grid-cols-2 lg:grid-cols-5 gap-8 mb-12">
             {/* Logo Column */}
             <div className="col-span-2 lg:col-span-2">
-              <div className="flex items-center gap-3 mb-4">
+              <a href="#hero" className="flex items-center gap-3 mb-4 w-fit">
                 <img
                   src="/logo.jpg"
                   alt="solProxy"
@@ -140,7 +147,7 @@ const FinalCTA = () => {
                 <span className="font-mono text-lg font-medium tracking-wider text-text-primary">
                   SOLPROXY
                 </span>
-              </div>
+              </a>
               <p className="text-text-secondary text-sm mb-6 max-w-sm">
                 Premium 4G/5G mobile network access for professionals. Real
                 devices on real carrier networks.
@@ -160,11 +167,9 @@ const FinalCTA = () => {
                 </a>
                 {/* X (Twitter) */}
                 <a
-                  href="#"
-                  target="_blank"
-                  rel="noopener noreferrer"
+                  href="#pricing"
                   className="w-10 h-10 rounded-lg bg-bg-secondary border border-white/5 flex items-center justify-center text-text-secondary hover:text-cyan hover:border-cyan/30 transition-colors"
-                  aria-label="X (Twitter)"
+                  aria-label="Pricing"
                 >
                   <svg className="w-5 h-5" viewBox="0 0 24 24" fill="currentColor">
                     <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
@@ -172,9 +177,11 @@ const FinalCTA = () => {
                 </a>
                 {/* Email */}
                 <a
-                  href="#"
+                  href="https://t.me/sol_proxy"
+                  target="_blank"
+                  rel="noopener noreferrer"
                   className="w-10 h-10 rounded-lg bg-bg-secondary border border-white/5 flex items-center justify-center text-text-secondary hover:text-cyan hover:border-cyan/30 transition-colors"
-                  aria-label="Email"
+                  aria-label="Telegram Support"
                 >
                   <Mail className="w-5 h-5" />
                 </a>
@@ -192,6 +199,8 @@ const FinalCTA = () => {
                     <li key={index}>
                       <a
                         href={link.href}
+                        target={link.external ? "_blank" : undefined}
+                        rel={link.external ? "noopener noreferrer" : undefined}
                         className="text-text-secondary text-sm hover:text-cyan transition-colors flex items-center gap-2"
                       >
                         {link.label}

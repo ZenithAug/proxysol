@@ -1,6 +1,7 @@
-import { useState, useEffect } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
 import { CheckCircle2, Loader2, Wallet, QrCode } from 'lucide-react';
 import { useAppStore } from '../stores/useAppStore';
 
@@ -13,22 +14,41 @@ interface CheckoutModalProps {
 
 export function CheckoutModal({ isOpen, onClose, tierGb, priceUsd }: CheckoutModalProps) {
   const [paymentState, setPaymentState] = useState<'pending' | 'listening' | 'success'>('pending');
+  const [walletAddress, setWalletAddress] = useState('');
+  const [errorMessage, setErrorMessage] = useState('');
+  const paymentTimerRef = useRef<number | null>(null);
+  const redirectTimerRef = useRef<number | null>(null);
   const { setPurchased } = useAppStore();
 
   // Reset state when opened
   useEffect(() => {
-    if (isOpen) setPaymentState('pending');
+    if (!isOpen) return;
+
+    setPaymentState('pending');
+    setErrorMessage('');
+  }, [isOpen]);
+
+  useEffect(() => {
+    return () => {
+      if (paymentTimerRef.current) window.clearTimeout(paymentTimerRef.current);
+      if (redirectTimerRef.current) window.clearTimeout(redirectTimerRef.current);
+    };
   }, [isOpen]);
 
   const handleSimulatePayment = () => {
+    setErrorMessage('');
     setPaymentState('listening');
-    setTimeout(() => {
-      setPaymentState('success');
-      setTimeout(() => {
-        setPurchased(tierGb, priceUsd);
-        onClose();
-        window.scrollTo(0, 0);
-      }, 1500);
+    paymentTimerRef.current = window.setTimeout(async () => {
+      try {
+        await setPurchased(tierGb, priceUsd, walletAddress.trim() || undefined);
+        setPaymentState('success');
+        redirectTimerRef.current = window.setTimeout(() => {
+          onClose();
+        }, 1500);
+      } catch {
+        setPaymentState('pending');
+        setErrorMessage('We could not generate your secure dashboard link. Please try the payment again.');
+      }
     }, 2500);
   };
 
@@ -55,10 +75,38 @@ export function CheckoutModal({ isOpen, onClose, tierGb, priceUsd }: CheckoutMod
                 <p className="text-sm text-zinc-500">~${priceUsd} USD</p>
               </div>
 
+              <div className="w-full space-y-2">
+                <label
+                  htmlFor="wallet-address"
+                  className="block text-xs font-mono uppercase tracking-widest text-zinc-500"
+                >
+                  Wallet address for claim
+                </label>
+                <Input
+                  id="wallet-address"
+                  value={walletAddress}
+                  onChange={(event) => setWalletAddress(event.target.value)}
+                  placeholder="Optional: paste buyer wallet address"
+                  className="h-11 border-zinc-800 bg-zinc-900 text-zinc-100 placeholder:text-zinc-600"
+                  autoComplete="off"
+                  spellCheck={false}
+                  disabled={paymentState === 'listening'}
+                />
+                <p className="text-xs text-zinc-500">
+                  After payment we mint a secure claim link for this dashboard and store it on the server.
+                </p>
+              </div>
+
+              {errorMessage ? (
+                <div className="w-full rounded-xl border border-red-500/20 bg-red-950/30 px-4 py-3 text-sm text-red-300">
+                  {errorMessage}
+                </div>
+              ) : null}
+
               {paymentState === 'listening' ? (
                 <div className="flex items-center space-x-2 text-cyan-400 bg-cyan-950/30 px-4 py-2 rounded-full border border-cyan-500/20">
                   <Loader2 className="w-4 h-4 animate-spin" />
-                  <span className="text-sm font-medium">Listening for transaction...</span>
+                  <span className="text-sm font-medium">Confirming payment and minting claim link...</span>
                 </div>
               ) : (
                 <Button 
@@ -77,7 +125,7 @@ export function CheckoutModal({ isOpen, onClose, tierGb, priceUsd }: CheckoutMod
               </div>
               <h3 className="text-2xl font-bold text-white">Payment Received!</h3>
               <p className="text-zinc-400 text-center">
-                Your proxies are ready. Redirecting to dashboard...
+                Your dashboard is secured with a claim token. Redirecting now...
               </p>
             </div>
           )}

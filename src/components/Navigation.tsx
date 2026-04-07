@@ -1,12 +1,20 @@
 import { useState, useEffect, useRef } from "react";
 import { Menu, X, Globe, ChevronRight } from "lucide-react";
 import { useAppStore } from "../stores/useAppStore";
+import { AccessDashboardModal } from "./AccessDashboardModal";
 
 const Navigation = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [isAccessModalOpen, setIsAccessModalOpen] = useState(false);
   const tickingRef = useRef(false);
-  const { hasPurchased } = useAppStore();
+  const {
+    hasPurchased,
+    proxyDetails,
+    currentView,
+    navigateToLanding,
+    navigateToDashboard,
+  } = useAppStore();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -35,14 +43,61 @@ const Navigation = () => {
     };
   }, [isMobileMenuOpen]);
 
-  const navLinks = [
-    { label: "How it Works", href: "#ai-native" },
-    { label: "Pricing", href: "#pricing" },
-    { label: "MCP Server", href: "#mcp-server" },
-    { label: "FAQ", href: "#peer-market" },
-  ];
-
   const closeMobileMenu = () => setIsMobileMenuOpen(false);
+  const openAccessModal = () => {
+    closeMobileMenu();
+    setIsAccessModalOpen(true);
+  };
+  const canAccessDashboard = hasPurchased && !!proxyDetails;
+  const isDashboardView = currentView === "dashboard" && canAccessDashboard;
+
+  const navLinks = isDashboardView
+    ? [
+        {
+          label: "Credentials",
+          onClick: () => navigateToDashboard("credentials"),
+        },
+        {
+          label: "Agent Flow",
+          onClick: () => navigateToDashboard("agent"),
+        },
+        {
+          label: "Code",
+          onClick: () => navigateToDashboard("code"),
+        },
+      ]
+    : [
+        {
+          label: "How it Works",
+          onClick: () => navigateToLanding("how-it-works"),
+        },
+        {
+          label: "Pricing",
+          onClick: () => navigateToLanding("pricing"),
+        },
+        {
+          label: "MCP Server",
+          onClick: () => navigateToLanding("mcp-server"),
+        },
+        {
+          label: "FAQ",
+          onClick: () => navigateToLanding("peer-market"),
+        },
+      ];
+
+  const handleLogoClick = () => {
+    closeMobileMenu();
+    navigateToLanding("hero");
+  };
+
+  const handleCtaClick = () => {
+    closeMobileMenu();
+    if (isDashboardView) {
+      navigateToLanding("hero");
+      return;
+    }
+    navigateToDashboard();
+  };
 
   return (
     <>
@@ -57,7 +112,11 @@ const Navigation = () => {
         <div className="w-full px-6 lg:px-12">
           <div className="flex items-center justify-between h-16 lg:h-20">
             {/* Logo */}
-            <a href="#" className="flex items-center gap-3 group">
+            <button
+              type="button"
+              onClick={handleLogoClick}
+              className="flex items-center gap-3 group"
+            >
               <div className="relative">
                 <img
                   src="/logo.jpg"
@@ -69,19 +128,20 @@ const Navigation = () => {
               <span className="font-mono text-sm font-medium tracking-wider text-text-primary">
                 SOLPROXY
               </span>
-            </a>
+            </button>
 
             {/* Desktop Navigation */}
             <div className="hidden lg:flex items-center gap-8">
               {navLinks.map((link) => (
-                <a
+                <button
                   key={link.label}
-                  href={link.href}
+                  type="button"
+                  onClick={link.onClick}
                   className="relative text-sm text-text-secondary hover:text-cyan transition-colors duration-300 group py-1"
                 >
                   {link.label}
                   <span className="absolute bottom-0 left-0 w-0 h-[1px] bg-cyan group-hover:w-full transition-all duration-300" />
-                </a>
+                </button>
               ))}
             </div>
 
@@ -94,22 +154,32 @@ const Navigation = () => {
               </button>
 
               {/* CTA Button */}
-              {hasPurchased ? (
+              {canAccessDashboard ? (
                 <button
-                  onClick={() => { window.scrollTo(0, 0); }}
+                  type="button"
+                  onClick={handleCtaClick}
                   className="hidden lg:block bg-cyan/10 text-cyan border border-cyan/20 px-6 py-2.5 rounded-xl font-medium text-sm hover:bg-cyan/20 transition-all"
                 >
-                  Dashboard
+                  {isDashboardView ? "Main Site" : "Open Dashboard"}
                 </button>
               ) : (
-                <a
-                  href="https://t.me/sol_proxy"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="hidden lg:block neon-button-primary text-sm"
-                >
-                  Start free
-                </a>
+                <>
+                  <button
+                    type="button"
+                    onClick={openAccessModal}
+                    className="hidden lg:block px-4 py-2.5 rounded-xl border border-white/[0.08] bg-white/[0.03] text-text-secondary hover:text-cyan hover:border-cyan/20 transition-all text-sm"
+                  >
+                    Access dashboard
+                  </button>
+                  <a
+                    href="https://t.me/sol_proxy"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="hidden lg:block neon-button-primary text-sm"
+                  >
+                    Start free
+                  </a>
+                </>
               )}
 
               {/* Mobile Menu Button */}
@@ -181,20 +251,23 @@ const Navigation = () => {
           {/* Nav Links */}
           <nav className="space-y-1 relative z-10">
             {navLinks.map((link, i) => (
-              <a
+              <button
                 key={link.label}
-                href={link.href}
+                type="button"
                 className={`mobile-nav-item flex items-center justify-between py-4 px-4 rounded-xl text-lg font-medium text-text-secondary hover:text-cyan hover:bg-cyan/5 active:bg-cyan/10 transition-all duration-200 group border border-transparent hover:border-white/[0.06] ${
                   isMobileMenuOpen ? "mobile-nav-in" : "mobile-nav-out"
                 }`}
                 style={{
                   animationDelay: isMobileMenuOpen ? `${i * 60 + 80}ms` : "0ms",
                 }}
-                onClick={closeMobileMenu}
+                onClick={() => {
+                  closeMobileMenu();
+                  link.onClick();
+                }}
               >
                 <span>{link.label}</span>
                 <ChevronRight className="w-4 h-4 opacity-0 group-hover:opacity-100 transition-all duration-200 -translate-x-1 group-hover:translate-x-0" />
-              </a>
+              </button>
             ))}
           </nav>
 
@@ -212,23 +285,33 @@ const Navigation = () => {
                 : "0ms",
             }}
           >
-            {hasPurchased ? (
+            {canAccessDashboard ? (
               <button
+                type="button"
                 className="block w-full text-center bg-cyan/10 text-cyan border border-cyan/20 py-4 rounded-xl text-base font-medium"
-                onClick={() => { closeMobileMenu(); window.scrollTo(0, 0); }}
+                onClick={handleCtaClick}
               >
-                Dashboard
+                {isDashboardView ? "Main Site" : "Open Dashboard"}
               </button>
             ) : (
-              <a
-                href="https://t.me/sol_proxy"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="block w-full text-center neon-button-primary py-4 text-base"
-                onClick={closeMobileMenu}
-              >
-                Start free
-              </a>
+              <>
+                <button
+                  type="button"
+                  className="block w-full text-center border border-white/[0.08] bg-white/[0.03] py-4 rounded-xl text-base text-text-secondary hover:text-cyan transition-colors"
+                  onClick={openAccessModal}
+                >
+                  Access dashboard
+                </button>
+                <a
+                  href="https://t.me/sol_proxy"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="block w-full text-center neon-button-primary py-4 text-base"
+                  onClick={closeMobileMenu}
+                >
+                  Start free
+                </a>
+              </>
             )}
             <button className="flex items-center justify-center gap-2 w-full py-3 text-sm text-text-secondary hover:text-cyan transition-colors">
               <Globe className="w-4 h-4" />
@@ -237,6 +320,10 @@ const Navigation = () => {
           </div>
         </div>
       </div>
+      <AccessDashboardModal
+        isOpen={isAccessModalOpen}
+        onClose={() => setIsAccessModalOpen(false)}
+      />
     </>
   );
 };
