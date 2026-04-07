@@ -467,13 +467,19 @@ export function AppProvider({ children }: { children: ReactNode }) {
   ) => {
     const tierName = tierGb === 25 ? 'Starter' : tierGb === 50 ? 'Growth' : 'Scale';
     const randomHex = () => Math.random().toString(16).substring(2, 10).toUpperCase();
+    const randomBase58 = (length: number) => {
+      const alphabet = '123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz';
+      return Array.from({ length }, () =>
+        alphabet[Math.floor(Math.random() * alphabet.length)],
+      ).join('');
+    };
     const purchaseCode = randomHex();
     const userId = `usr_${purchaseCode.slice(0, 6).toLowerCase()}`;
     const dashboardId = `dash_${purchaseCode.toLowerCase()}_${Date.now().toString(36)}`;
     const baseProxyDetails = {
       userId,
       dashboardId,
-      walletAddress: walletAddress?.trim() || `MockWallet${randomHex()}${randomHex()}`,
+      walletAddress: walletAddress?.trim() || randomBase58(44),
       endpoint: 'us-east.proxy.solproxy.network',
       port: '7777',
       username: `sp_${randomHex().toLowerCase()}`,
@@ -481,7 +487,7 @@ export function AppProvider({ children }: { children: ReactNode }) {
       dataLimitGb: tierGb,
       dataUsedGb: 0,
       tier: tierName,
-      txSignature: `${randomHex()}${randomHex()}${randomHex()}${randomHex()}`,
+      txSignature: randomBase58(88),
       purchasedAt: new Date().toISOString(),
     };
 

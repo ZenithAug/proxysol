@@ -166,16 +166,17 @@ const AINative = () => {
             </h2>
 
             <p className="text-text-secondary text-base lg:text-lg leading-relaxed mb-6">
-              Account verification, checkout bots, scraping, and LLM browsing
-              — your agents need clean mobile IPs at every step.
+              SolProxy follows the same operational loop strong proxy products
+              use: fund, activate, recover, and rotate. The difference is your
+              access layer is token-native.
             </p>
 
             {/* 3-step How it Works */}
             <ol className="space-y-3 mb-8">
               {[
-                { n: 1, title: "Connect wallet with USDC", sub: "No account, no KYC, no approval" },
-                { n: 2, title: "Create an endpoint", sub: "Pick country, HTTP or SOCKS5" },
-                { n: 3, title: "Rotate anytime via chat or MCP", sub: "Fresh IP in ~2s" },
+                { n: 1, title: "Purchase bandwidth with SOLPROXY or USDC", sub: "Token-native checkout with instant claim creation" },
+                { n: 2, title: "Open the dashboard and deploy credentials", sub: "Claim link, endpoint details, and connection strings are issued immediately" },
+                { n: 3, title: "Rotate and manage through MCP or dashboard", sub: "Fresh IPs, status checks, and session recovery on demand" },
               ].map(({ n, title, sub }) => (
                 <li key={n} className="flex items-start gap-3">
                   <span className="flex-shrink-0 w-7 h-7 rounded-full bg-cyan/10 border border-cyan/30 text-cyan text-xs font-bold flex items-center justify-center mt-0.5">
@@ -199,7 +200,7 @@ const AINative = () => {
                 <p className="text-text-primary font-semibold">
                   Powered by $PROXY
                 </p>
-                <p className="text-text-secondary text-sm">Solana & Base</p>
+                <p className="text-text-secondary text-sm">Solana-first access layer</p>
               </div>
             </div>
           </div>
@@ -227,9 +228,9 @@ const AINative = () => {
               </div>
 
               <p className="text-text-secondary text-sm mb-6">
-                Agents purchase proxies with USDC on-chain via x402
-                pay-on-request. Settlement in ~2s. No registration, no KYC,
-                no approval process.
+                Agents settle access through a tokenized payment flow, receive
+                credentials instantly, and continue requests without account
+                approval or traditional API key issuance.
               </p>
 
               <div className="flex flex-wrap gap-3">
@@ -242,12 +243,12 @@ const AINative = () => {
                 <div className="metric-chip flex items-center gap-2 px-3 py-2 rounded-lg bg-cyan/5 border border-cyan/20">
                   <Wallet className="w-4 h-4 text-cyan" />
                   <span className="text-sm text-text-primary">
-                    $0.375 min buy
+                    Claim link issued
                   </span>
                 </div>
                 <div className="metric-chip flex items-center gap-2 px-3 py-2 rounded-lg bg-cyan/5 border border-cyan/20">
                   <Key className="w-4 h-4 text-cyan" />
-                  <span className="text-sm text-text-primary">0 API keys</span>
+                  <span className="text-sm text-text-primary">0 static API keys</span>
                 </div>
               </div>
             </div>
@@ -273,9 +274,9 @@ const AINative = () => {
               </div>
 
               <p className="text-text-secondary text-sm mb-6">
-                55 MCP tools. Works with Claude, Cursor, and Cline. Create
-                endpoints, rotate IPs, and monitor status — all through
-                natural language.
+                55 MCP tools for operational control. Provision endpoints,
+                rotate exits, inspect status, and move between landing page and
+                dashboard without losing session context.
               </p>
 
               <div className="flex flex-wrap gap-3">

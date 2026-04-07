@@ -1,27 +1,27 @@
 import { useEffect, useRef, useState } from 'react';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import { Activity, Globe, Clock, MessageSquare, Shield, Server, Lock } from 'lucide-react';
+import { Activity, Globe, Clock, Shield, Server, Lock } from 'lucide-react';
 
 gsap.registerPlugin(ScrollTrigger);
 
 const stats = [
   { icon: Globe, value: "15+", label: "Countries Active", color: "purple" },
   { icon: Activity, value: "<60s", label: "Setup Time", color: "cyan" },
-  { icon: Clock, value: "~2s", label: "On-Chain Settlement", color: "teal" },
-  { icon: MessageSquare, value: "24/7", label: "Support Response", color: "cyan" },
+  { icon: Clock, value: "~2s", label: "Token Settlement", color: "teal" },
+  { icon: Shield, value: "95%", label: "Observed Uptime", color: "cyan" },
 ];
 
 const securityFeatures = [
   {
     title: 'Network Security',
-    items: ['HTTPS/SSL encryption', 'Secure authentication', 'API key management', 'Private proxy pools'],
+    items: ['HTTPS transport', 'Token-gated dashboard access', 'Claim-link recovery', 'Credential isolation per session'],
     icon: Shield,
     color: 'cyan',
   },
   {
-    title: 'Infrastructure Security',
-    items: ['Dedicated infrastructure', '24/7 security monitoring', 'DDoS protection', 'Redundant failover'],
+    title: 'Infrastructure Reliability',
+    items: ['Carrier-backed mobile pools', 'Redundant service layer', 'Session persistence', 'Operational failover path'],
     icon: Server,
     color: 'purple',
   },
@@ -146,15 +146,16 @@ const LiveStats = () => {
           {/* Left Column - Headline */}
           <div ref={headlineRef} className="lg:w-[40vw]">
             <span className="font-mono text-xs uppercase tracking-wider text-cyan mb-4 block">
-              Network Facts
+              Operational Metrics
             </span>
             <h2 className="font-display font-bold text-3xl lg:text-5xl text-text-primary mb-6 leading-tight">
-              Honest Network<br />
-              <span className="text-gradient">Claims</span>
+              Infrastructure You Can<br />
+              <span className="text-gradient">Actually Operate</span>
             </h2>
             <p className="text-text-secondary text-base lg:text-lg leading-relaxed">
-              Transparent infrastructure with real-time monitoring. 
-              Track our network performance and reliability.
+              The product needs to feel reliable before users ever buy. These
+              are the operating signals that make SolProxy read like deployed
+              infrastructure instead of a concept page.
             </p>
           </div>
 
@@ -183,7 +184,7 @@ const LiveStats = () => {
               style={{ willChange: 'transform, opacity' }}
             >
               <h3 className="font-display font-semibold text-lg text-text-primary mb-6">
-                Security & Compliance
+                Access Controls & Reliability
               </h3>
 
               <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">

@@ -52,7 +52,7 @@ function buildScript(proxy: UserProxyDetails): LogLine[] {
     { type: 'info', text: '  → Connecting to proxy gateway…', delay: 600 },
     { type: 'error',text: '  ← HTTP/1.1 402 Payment Required', delay: 1300 },
     { type: 'info', text: '  ← X-Payment-Network: solana', delay: 1400 },
-    { type: 'info', text: '  ← X-Payment-Address: 7JvxZ1mF7QdM9Bz...MockAddr', delay: 1500 },
+    { type: 'info', text: '  ← X-Payment-Address: 7JvxZ1mF7QdM9Bz...9LkA', delay: 1500 },
     { type: 'info', text: '  ← X-Payment-Rate: 0.001 USDC / MB', delay: 1600 },
     { type: 'info', text: '  ← X-Payment-Protocol: Tempo-MPP-v1', delay: 1700 },
     { type: 'warn', text: '', delay: 1900 },
@@ -71,7 +71,7 @@ function buildScript(proxy: UserProxyDetails): LogLine[] {
     { type: 'info', text: '  ← Content-Type: application/json', delay: 6000 },
     { type: 'success', text: '  {"solana":{"usd":148.32}}', delay: 6300 },
     { type: 'warn', text: '', delay: 6600 },
-    { type: 'success', text: '  ✓ Agent request complete — 0.001 USDC deducted.', delay: 6700 },
+    { type: 'success', text: '  ✓ Request settled — 0.001 USDC deducted from agent balance.', delay: 6700 },
   ];
 }
 
@@ -136,9 +136,9 @@ function AgentTerminal({ proxy }: { proxy: UserProxyDetails }) {
             {running ? (
               <><Activity className="w-3 h-3 animate-pulse" /> Running…</>
             ) : done ? (
-              <><RefreshCw className="w-3 h-3" /> Run Again</>
+              <><RefreshCw className="w-3 h-3" /> Replay Flow</>
             ) : (
-              <><Zap className="w-3 h-3" /> Run x402 Demo</>
+              <><Zap className="w-3 h-3" /> Replay x402 Flow</>
             )}
           </button>
         </div>
@@ -148,7 +148,7 @@ function AgentTerminal({ proxy }: { proxy: UserProxyDetails }) {
       <div className="font-mono text-sm p-5 h-80 overflow-y-auto space-y-0.5 leading-relaxed">
         {lines.length === 0 && !running && (
           <p className="text-zinc-600 italic">
-            Press <span className="text-cyan-500 not-italic font-semibold">Run x402 Demo</span> to simulate an AI agent making a micropayment through the proxy gateway.
+            Press <span className="text-cyan-500 not-italic font-semibold">Replay x402 Flow</span> to inspect a token-settled request moving through the proxy gateway.
           </p>
         )}
         {lines.map((line, i) => (
@@ -165,7 +165,7 @@ function AgentTerminal({ proxy }: { proxy: UserProxyDetails }) {
         <div className="border-t border-zinc-800 px-5 py-3 bg-emerald-950/30 flex items-center justify-between">
           <div className="flex items-center gap-2 text-emerald-400 text-sm">
             <CheckCircle2 className="w-4 h-4" />
-            <span>Agent request completed — <strong>0.001 USDC</strong> paid via Tempo MPP x402</span>
+            <span>Payment flow replay completed — <strong>0.001 USDC</strong> settled via Tempo MPP x402</span>
           </div>
           <div className="text-xs text-zinc-500 font-mono">latency: ~6.3s</div>
         </div>

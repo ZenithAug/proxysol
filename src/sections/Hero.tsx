@@ -147,18 +147,18 @@ const Hero = () => {
               {/* Headline */}
               <div ref={headlineRef} className="space-y-2 mb-6">
                 <h1 className="font-display font-bold text-4xl lg:text-6xl xl:text-7xl text-text-primary leading-none">
-                  <span className="word inline-block">AI that roams.</span>
+                  <span className="word inline-block">AI-native mobile</span>
                 </h1>
                 <h1 className="font-display font-bold text-3xl lg:text-5xl xl:text-6xl text-gradient leading-none">
-                  <span className="word inline-block">Mobile IPs</span>{" "}
-                  <span className="word inline-block">on tap.</span>
+                  <span className="word inline-block">proxy infrastructure.</span>
                 </h1>
               </div>
 
               {/* Subheadline */}
               <p className="text-text-secondary text-base lg:text-lg max-w-2xl leading-relaxed">
-                Give your agents clean 4G/5G IPs in 10+ countries. No KYC, no
-                API keys — pay with USDC and go.
+                Real 4G/5G carrier IPs, instant endpoint activation, MCP control,
+                and token-backed access recovery. Built for agents, automation,
+                and high-trust traffic at scale.
               </p>
             </div>
 
@@ -175,7 +175,7 @@ const Hero = () => {
                   Start free
                 </a>
                 <a href="#mcp-server" className="neon-button">
-                  See a live demo
+                  Explore MCP flow
                 </a>
               </div>
 
@@ -194,8 +194,8 @@ const Hero = () => {
                   "10+ countries",
                   "<60s setup",
                   "Real carrier IPs",
-                  "~2s settlement",
-                  "Rotate on demand",
+                  "~2s token settlement",
+                  "Claim-link recovery",
                 ].map((pill) => (
                   <span
                     key={pill}
@@ -222,16 +222,16 @@ const Hero = () => {
               </h3>
               <div className="grid grid-cols-3 gap-4">
                 <div className="stat-chip">
-                  <span className="stat-chip-value text-cyan">4G</span>
-                  <span className="stat-chip-label">LTE Networks</span>
+                  <span className="stat-chip-value text-cyan">4G/5G</span>
+                  <span className="stat-chip-label">Carrier Pools</span>
                 </div>
                 <div className="stat-chip">
-                  <span className="stat-chip-value text-cyan">10+</span>
+                  <span className="stat-chip-value text-cyan">15+</span>
                   <span className="stat-chip-label">Countries</span>
                 </div>
                 <div className="stat-chip">
-                  <span className="stat-chip-value text-cyan">&lt;60s</span>
-                  <span className="stat-chip-label">Setup</span>
+                  <span className="stat-chip-value text-cyan">95%</span>
+                  <span className="stat-chip-label">Uptime</span>
                 </div>
               </div>
             </div>
@@ -247,37 +247,38 @@ const Hero = () => {
                   <Zap className="w-5 h-5 text-cyan" />
                 </div>
                 <h3 className="font-display font-semibold text-lg text-text-primary">
-                  High-Performance
+                  Infrastructure
                 </h3>
               </div>
 
               <p className="text-text-secondary text-sm mb-6">
-                Real mobile devices on carrier networks for maximum reliability.
+                Production-ready endpoints for browser automation, scraping,
+                verification, and agent workflows on real carrier networks.
               </p>
 
               <div className="space-y-4">
                 <div className="flex items-center gap-3">
                   <Wifi className="w-4 h-4 text-cyan" />
                   <span className="text-sm text-text-secondary">
-                    Unlimited bandwidth
+                    Rotating carrier pools
                   </span>
                 </div>
                 <div className="flex items-center gap-3">
                   <Zap className="w-4 h-4 text-cyan" />
                   <span className="text-sm text-text-secondary">
-                    10–100 Mbps
+                    Dashboard + MCP control
                   </span>
                 </div>
                 <div className="flex items-center gap-3">
                   <Clock className="w-4 h-4 text-cyan" />
                   <span className="text-sm text-text-secondary">
-                    &lt; 60s setup
+                    Instant activation
                   </span>
                 </div>
                 <div className="flex items-center gap-3">
                   <Headphones className="w-4 h-4 text-cyan" />
                   <span className="text-sm text-text-secondary">
-                    24/7 support
+                    Secure claim recovery
                   </span>
                 </div>
               </div>

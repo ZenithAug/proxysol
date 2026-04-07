@@ -46,10 +46,10 @@ const pricingTiers = [
 ];
 
 const comparisonData = [
-  { feature: 'Device Access', shared: 'Rotating pool', private: 'Dedicated modem' },
-  { feature: 'IP Rotation', shared: 'Every 5 min', private: 'Every 1 min' },
-  { feature: 'Price', shared: '$4/GB', private: '$8/GB' },
-  { feature: 'Slots', shared: 'FREE', private: 'FREE' },
+  { feature: 'Device Access', shared: 'Shared carrier pool', private: 'Dedicated modem lane' },
+  { feature: 'Rotation Window', shared: 'Every 5 min', private: 'Every 1 min' },
+  { feature: 'Activation', shared: 'Instant dashboard issue', private: 'Instant dashboard issue' },
+  { feature: 'Recovery', shared: 'Claim link + token', private: 'Claim link + token' },
 ];
 
 const Pricing = () => {
@@ -143,15 +143,16 @@ const Pricing = () => {
         {/* Headline */}
         <div ref={headlineRef} className="text-center mb-12">
           <span className="font-mono text-xs uppercase tracking-wider text-cyan mb-4 block">
-            Simple Pricing
+            Production Bundles
           </span>
           <h2 className="font-display font-bold text-3xl lg:text-5xl text-text-primary mb-4 leading-tight">
-            Simple, <span className="text-gradient">Transparent</span> Pricing
+            Token-Aware, <span className="text-gradient">Operational</span> Pricing
           </h2>
           <p className="text-text-secondary text-base lg:text-lg max-w-2xl mx-auto">
-            Shared from <span className="text-cyan font-semibold">$36/mo</span>. Private from <span className="text-cyan font-semibold">$72/mo</span>.
-            Micro-buys from <span className="text-cyan font-semibold">$0.375</span> in USDC or <span className="text-cyan font-semibold">$SOLPROXY</span>.
-            Unlimited bandwidth • 10–100 Mbps typical.
+            Buy bandwidth bundles, activate instantly, and recover the same
+            dashboard from any browser with a claim token. Pay in USDC or
+            <span className="text-cyan font-semibold"> $SOLPROXY</span> and keep the
+            infrastructure flow familiar for proxy buyers.
           </p>
         </div>
 
@@ -201,7 +202,7 @@ const Pricing = () => {
                     </span>
                   </div>
                   <p className="text-text-secondary text-sm">
-                    {tier.discount}% off • {tier.gb} GB @ ${tier.perGb}/GB
+                    {tier.discount}% off • {tier.gb} GB @ ${tier.perGb}/GB effective
                   </p>
                 </div>
 
@@ -213,19 +214,19 @@ const Pricing = () => {
                 <ul className="space-y-3 mb-8 flex-1">
                   <li className="flex items-center gap-2 text-sm text-text-secondary">
                     <Check className="w-4 h-4 text-cyan" />
-                    Unlocks {tier.name} tier
+                    Instant dashboard activation
                   </li>
                   <li className="flex items-center gap-2 text-sm text-text-secondary">
                     <Check className="w-4 h-4 text-cyan" />
-                    {tier.gb} GB bandwidth
+                    {tier.gb} GB of non-expiring traffic
                   </li>
                   <li className="flex items-center gap-2 text-sm text-text-secondary">
                     <Check className="w-4 h-4 text-cyan" />
-                    Traffic never expires
+                    Claim-link recovery across browsers
                   </li>
                   <li className="flex items-center gap-2 text-sm text-text-secondary">
                     <Check className="w-4 h-4 text-cyan" />
-                    24/7 support
+                    MCP + dashboard management
                   </li>
                 </ul>
 
@@ -237,7 +238,7 @@ const Pricing = () => {
                       : 'neon-button'
                   }`}
                 >
-                  Buy {tier.gb} GB
+                  Activate {tier.gb} GB
                 </button>
               </div>
             );
@@ -251,7 +252,7 @@ const Pricing = () => {
           style={{ willChange: 'transform, opacity' }}
         >
           <h3 className="font-display font-semibold text-xl text-text-primary mb-6 text-center">
-            Shared vs Private: Which is Right for You?
+            Shared vs Private Access Paths
           </h3>
 
           <div className="overflow-x-auto">
@@ -278,7 +279,7 @@ const Pricing = () => {
           <div className="mt-6 flex flex-wrap justify-center gap-4">
             <div className="flex items-center gap-2 text-sm text-text-secondary">
               <Check className="w-4 h-4 text-cyan" />
-              Endpoints renew monthly
+              Endpoints issue instantly after checkout
             </div>
             <div className="flex items-center gap-2 text-sm text-text-secondary">
               <Check className="w-4 h-4 text-cyan" />
@@ -286,11 +287,11 @@ const Pricing = () => {
             </div>
             <div className="flex items-center gap-2 text-sm text-text-secondary">
               <Check className="w-4 h-4 text-cyan" />
-              Pay with USDC, card, or $SOLPROXY
+              Pay with USDC or $SOLPROXY
             </div>
             <div className="flex items-center gap-2 text-sm text-text-secondary">
               <Check className="w-4 h-4 text-cyan" />
-              Cancel anytime
+              Claim token restores the same dashboard
             </div>
           </div>
         </div>

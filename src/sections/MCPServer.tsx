@@ -23,15 +23,15 @@ const chatMessages = [
   },
   {
     type: "user" as const,
-    content: "Automating micropayment via Tempo... Paid.",
+    content: "Signing token payment and submitting settlement...",
   },
   {
     type: "ai" as const,
-    content: "Payment verified. Macaroon token minted.",
+    content: "Payment verified. Access token and proxy session issued.",
   },
   {
     type: "user" as const,
-    content: "Retrying with x402 Token attached...",
+    content: "Retrying request with issued access token...",
   },
   {
     type: "ai" as const,
@@ -74,10 +74,10 @@ const MCPServer = () => {
 
   const inputText = 
     sequenceIndex === 1 ? "curl -x us-east.proxy..." :
-    sequenceIndex === 4 ? "Paying invoice..." :
-    sequenceIndex === 7 ? "Retrying with token..." :
+    sequenceIndex === 4 ? "Settling token payment..." :
+    sequenceIndex === 7 ? "Retrying with access token..." :
     (sequenceIndex === 2 || sequenceIndex === 5 || sequenceIndex === 8) ? "" :
-    "Agent listening...";
+    "Gateway standing by...";
 
 
 
@@ -196,8 +196,9 @@ const MCPServer = () => {
 
             <p className="text-text-secondary text-base lg:text-lg leading-relaxed mb-8">
               Let Claude, Cursor, or Cline manage your mobile proxy
-              infrastructure through natural language. 55 MCP tools. Create
-              endpoints, rotate IPs, monitor status — no dashboard needed.
+              infrastructure through natural language. 55 MCP tools for
+              endpoint creation, rotation, monitoring, and recovery on top of
+              the same production network the dashboard uses.
             </p>
 
             <div className="space-y-4">
@@ -220,7 +221,7 @@ const MCPServer = () => {
                   <span className="text-teal text-xs font-bold">USDC</span>
                 </div>
                 <span className="text-text-secondary">
-                  Crypto & Card Payments
+                  USDC + token checkout
                 </span>
               </div>
             </div>
@@ -238,7 +239,7 @@ const MCPServer = () => {
                 <Bot className="w-4 h-4 text-cyan" />
               </div>
               <span className="font-display font-semibold text-text-primary">
-                Agentic Proxy Flow (x402)
+                Autonomous Access Flow
               </span>
               <span className="ml-auto text-xs text-text-secondary">
                 Online
@@ -298,7 +299,7 @@ const MCPServer = () => {
             {/* Chat Input */}
             <div className="mt-4 pt-4 border-t border-white/5">
               <div className="flex items-center gap-3 px-4 py-3 rounded-xl bg-bg-primary/50 border border-white/5 transition-all w-full min-h-[46px]">
-                <span className={`text-sm ${inputText === "Agent listening..." ? "text-text-secondary" : "text-text-primary"}`}>
+                <span className={`text-sm ${inputText === "Gateway standing by..." ? "text-text-secondary" : "text-text-primary"}`}>
                   {inputText}
                   {(sequenceIndex === 1 || sequenceIndex === 4) && (
                     <span className="animate-pulse inline-block -ml-[2px]">_</span>

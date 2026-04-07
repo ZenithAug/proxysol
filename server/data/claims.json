@@ -2,9 +2,9 @@
   "claims": {
     "claim_01cc95372bfeb636fb48c4fb60108d925ec0fbac09e118e9": {
       "createdAt": "2026-04-07T19:57:03.291Z",
-      "lastAccessedAt": "2026-04-07T19:58:02.401Z",
+      "lastAccessedAt": "2026-04-07T20:11:08.739Z",
       "agentTokenBalance": 5000,
-      "currentView": "dashboard",
+      "currentView": "landing",
       "activeDashboardTab": "credentials",
       "proxyDetails": {
         "userId": "usr_4191ed",

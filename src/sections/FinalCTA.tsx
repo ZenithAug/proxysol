@@ -108,8 +108,9 @@ const FinalCTA = () => {
           </h2>
 
           <p className="text-text-secondary text-base lg:text-lg max-w-2xl mx-auto mb-8">
-            Join 150+ businesses using solProxy to run clean mobile traffic at
-            scale. No KYC, no API keys — pay with USDC and go.
+            SolProxy should feel like production infrastructure from first
+            click to active session. Real mobile IPs, instant activation,
+            token checkout, and recoverable dashboard access.
           </p>
 
           <div className="flex flex-wrap justify-center gap-4 mb-6">
@@ -125,7 +126,7 @@ const FinalCTA = () => {
 
           <p className="text-text-secondary text-sm">
             Starting at <span className="text-cyan font-semibold">$36/mo</span>{" "}
-            • No contracts • Cancel anytime • Instant activation
+            • Instant activation • Claim-link recovery • Token-aware checkout
           </p>
         </div>
 
@@ -149,8 +150,8 @@ const FinalCTA = () => {
                 </span>
               </a>
               <p className="text-text-secondary text-sm mb-6 max-w-sm">
-                Premium 4G/5G mobile network access for professionals. Real
-                devices on real carrier networks.
+                AI-native 4G/5G proxy infrastructure with dashboard access,
+                MCP control, and token-backed session recovery.
               </p>
               <div className="flex items-center gap-4">
                 {/* Telegram */}

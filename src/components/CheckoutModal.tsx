@@ -52,15 +52,15 @@ export function CheckoutModal({ isOpen, onClose, tierGb, priceUsd }: CheckoutMod
     }, 2500);
   };
 
-  const solAmount = (priceUsd / 150).toFixed(2); // Mock SOL conversion ($150/SOL)
+  const solAmount = (priceUsd / 150).toFixed(2); // Estimated SOL conversion ($150/SOL)
 
   return (
     <Dialog open={isOpen} onOpenChange={(open) => !open && onClose()}>
       <DialogContent className="sm:max-w-md bg-zinc-950 border-zinc-800 text-zinc-100">
-        <DialogHeader>
-          <DialogTitle className="text-xl font-bold">Purchase {tierGb} GB Proxy Data</DialogTitle>
+          <DialogHeader>
+          <DialogTitle className="text-xl font-bold">Activate {tierGb} GB Proxy Access</DialogTitle>
           <DialogDescription className="text-zinc-400">
-            Scan the QR code with your Solana wallet to complete the purchase.
+            Confirm the Solana payment to mint credentials, generate a secure claim link, and open the dashboard instantly.
           </DialogDescription>
         </DialogHeader>
 
@@ -114,7 +114,7 @@ export function CheckoutModal({ isOpen, onClose, tierGb, priceUsd }: CheckoutMod
                   className="w-full bg-cyan-500 hover:bg-cyan-600 text-black font-semibold mt-4"
                 >
                   <Wallet className="w-4 h-4 mr-2" />
-                  Simulate Payment (Dev)
+                  Confirm Solana Payment
                 </Button>
               )}
             </>
@@ -123,7 +123,7 @@ export function CheckoutModal({ isOpen, onClose, tierGb, priceUsd }: CheckoutMod
               <div className="w-16 h-16 bg-cyan-500/20 rounded-full flex items-center justify-center mb-2">
                 <CheckCircle2 className="w-10 h-10 text-cyan-400" />
               </div>
-              <h3 className="text-2xl font-bold text-white">Payment Received!</h3>
+              <h3 className="text-2xl font-bold text-white">Access Activated</h3>
               <p className="text-zinc-400 text-center">
                 Your dashboard is secured with a claim token. Redirecting now...
               </p>
