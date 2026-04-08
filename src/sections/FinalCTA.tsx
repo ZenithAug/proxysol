@@ -110,7 +110,7 @@ const FinalCTA = () => {
           <p className="text-text-secondary text-base lg:text-lg max-w-2xl mx-auto mb-8">
             SolProxy should feel like production infrastructure from first
             click to active session. Real mobile IPs, instant activation,
-            token checkout, and recoverable dashboard access.
+            wallet checkout, and recoverable dashboard access.
           </p>
 
           <div className="flex flex-wrap justify-center gap-4 mb-6">
@@ -126,7 +126,7 @@ const FinalCTA = () => {
 
           <p className="text-text-secondary text-sm">
             Starting at <span className="text-cyan font-semibold">$36/mo</span>{" "}
-            • Instant activation • Claim-link recovery • Token-aware checkout
+            • Instant activation • Claim-link recovery • USDC checkout live
           </p>
         </div>
 

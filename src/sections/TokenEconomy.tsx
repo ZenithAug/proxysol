@@ -15,29 +15,29 @@ const tokenMetrics = [
 const phases = [
   {
     number: 1,
-    title: "Live Network",
-    description: "Mobile proxies, MCP server, x402 protocol operational",
-    status: "live",
+    title: "Infrastructure Live",
+    description: "Mobile proxies, MCP server, and x402 checkout are already operational while $PROXY remains pre-launch",
+    status: "current",
     icon: Check,
   },
   {
     number: 2,
     title: "Payment Discounts",
-    description: "$PROXY holders get 10-30% off proxy purchases",
+    description: "After launch, $PROXY holders unlock 10-30% off proxy purchases",
     status: "coming",
     icon: Wallet,
   },
   {
     number: 3,
     title: "Peer Marketplace",
-    description: "Earnings boosted up to 50% for stakers",
+    description: "After launch, staking boosts peer marketplace earnings by up to 50%",
     status: "coming",
     icon: Cpu,
   },
   {
     number: 4,
     title: "Governance",
-    description: "Vote on network parameters and resource allocation",
+    description: "Post-launch governance for network parameters and resource allocation",
     status: "coming",
     icon: Vote,
   },
@@ -187,8 +187,9 @@ const TokenEconomy = () => {
             </h2>
 
             <p className="text-text-secondary text-base lg:text-lg leading-relaxed mb-8">
-              Powering the AI Agent Economy. Real devices on real networks,
-              powered by blockchain payments on Solana and Base.
+              The future economic layer for SolProxy. The network runs today on
+              real devices with blockchain payments on Solana and Base, while
+              $PROXY utility activates after launch.
             </p>
 
             {/* Token Metrics */}
@@ -262,25 +263,25 @@ const TokenEconomy = () => {
             <div className="space-y-3 flex-1">
               {phases.map((phase, index) => {
                 const Icon = phase.icon;
-                const isLive = phase.status === "live";
+                const isCurrent = phase.status === "current";
 
                 return (
                   <div
                     key={index}
                     className={`phase-item flex items-center gap-4 p-3 rounded-xl border ${
-                      isLive
+                      isCurrent
                         ? "bg-cyan/5 border-cyan/20"
                         : "bg-bg-primary/50 border-white/5"
                     }`}
                   >
                     <div
                       className={`w-8 h-8 rounded-lg flex items-center justify-center flex-shrink-0 ${
-                        isLive
+                        isCurrent
                           ? "bg-cyan/20 text-cyan"
                           : "bg-white/5 text-text-secondary"
                       }`}
                     >
-                      {isLive ? (
+                      {isCurrent ? (
                         <Check className="w-4 h-4" />
                       ) : (
                         <Icon className="w-4 h-4" />
@@ -290,14 +291,14 @@ const TokenEconomy = () => {
                       <div className="flex items-center gap-2">
                         <span
                           className={`text-sm font-semibold ${
-                            isLive ? "text-text-primary" : "text-text-secondary"
+                            isCurrent ? "text-text-primary" : "text-text-secondary"
                           }`}
                         >
                           Phase {phase.number}: {phase.title}
                         </span>
-                        {isLive && (
+                        {isCurrent && (
                           <span className="px-2 py-0.5 rounded-full bg-cyan/20 text-cyan text-xs">
-                            LIVE
+                            CURRENT
                           </span>
                         )}
                       </div>
@@ -313,14 +314,14 @@ const TokenEconomy = () => {
             {/* Status */}
             <div className="mt-4 p-3 rounded-xl bg-bg-primary/50 border border-white/5 text-center">
               <p className="text-text-secondary text-sm">
-                <span className="text-cyan font-semibold">Phase 1: LIVE</span>
+                <span className="text-cyan font-semibold">Today: Infrastructure Live</span>
                 <span className="mx-2">•</span>
-                <span>Phases 2-4: Coming Soon</span>
+                <span>$PROXY utility: Post-launch roadmap</span>
               </p>
             </div>
 
             <button className="metallic-button w-full mt-4">
-              Learn About $PROXY
+              View $PROXY Roadmap
             </button>
           </div>
         </div>

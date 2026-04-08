@@ -174,7 +174,7 @@ const AINative = () => {
             {/* 3-step How it Works */}
             <ol className="space-y-3 mb-8">
               {[
-                { n: 1, title: "Purchase bandwidth with SOLPROXY or USDC", sub: "Token-native checkout with instant claim creation" },
+                { n: 1, title: "Purchase bandwidth with USDC", sub: "Mainnet checkout today with instant claim creation" },
                 { n: 2, title: "Open the dashboard and deploy credentials", sub: "Claim link, endpoint details, and connection strings are issued immediately" },
                 { n: 3, title: "Rotate and manage through MCP or dashboard", sub: "Fresh IPs, status checks, and session recovery on demand" },
               ].map(({ n, title, sub }) => (
@@ -198,9 +198,9 @@ const AINative = () => {
               />
               <div>
                 <p className="text-text-primary font-semibold">
-                  Powered by $PROXY
+                  $PROXY Launch Pending
                 </p>
-                <p className="text-text-secondary text-sm">Solana-first access layer</p>
+                <p className="text-text-secondary text-sm">USDC checkout is live today; token utility follows launch</p>
               </div>
             </div>
           </div>

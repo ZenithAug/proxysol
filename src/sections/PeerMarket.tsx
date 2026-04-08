@@ -49,7 +49,7 @@ const PeerMarket = () => {
   const faqs = [
     { q: "Is KYC required?", a: "No. You only need a Solana or Base wallet with USDC." },
     { q: "Do you use API keys?", a: "No. We use the x402 protocol (HTTP 402 Payment Required). You pay on-request directly from your wallet." },
-    { q: "What payment methods are supported?", a: "USDC on Solana and Base. $PROXY token payments are optional." },
+    { q: "What payment methods are supported?", a: "USDC on Solana and Base today. $PROXY utility is planned for after launch." },
     { q: "How long does setup take?", a: "Less than 60 seconds. Connect your wallet, pick a country, and start requesting." },
     { q: "Is there 24/7 support?", a: "Yes. Reach out to us via Telegram anytime." }
   ];

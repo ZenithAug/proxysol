@@ -146,13 +146,12 @@ const Pricing = () => {
             Production Bundles
           </span>
           <h2 className="font-display font-bold text-3xl lg:text-5xl text-text-primary mb-4 leading-tight">
-            Token-Aware, <span className="text-gradient">Operational</span> Pricing
+            <span className="text-gradient">Operational</span> Pricing
           </h2>
           <p className="text-text-secondary text-base lg:text-lg max-w-2xl mx-auto">
             Buy bandwidth bundles, activate instantly, and recover the same
-            dashboard from any browser with a claim token. Pay in USDC or
-            <span className="text-cyan font-semibold"> $SOLPROXY</span> and keep the
-            infrastructure flow familiar for proxy buyers.
+            dashboard from any browser with a claim token. Pay in USDC today,
+            with $PROXY utility planned for a later launch.
           </p>
         </div>
 

@@ -138,10 +138,10 @@ const Hero = () => {
           >
             {/* Top Section */}
             <div>
-              {/* Live Badge */}
+              {/* Status Badge */}
               <div className="live-badge mb-6">
                 <span className="live-dot" />
-                <span>Live</span>
+                <span>Proxy Live</span>
               </div>
 
               {/* Headline */}
